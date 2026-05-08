@@ -19,7 +19,7 @@
                     <input type="range" id="volume-slider" min="0" max="1" step="0.1" value="1" title="Volume">
                     <button id="btn-mute" title="Mute/Unmute">🔊</button>
                 </div>
-                <button id="btn-bg">BG</button>
+                <button id="btn-bg">♫</button>
                 <input type="file" id="bg-file-input" style="display:none">
             </div>
         </div>
@@ -32,14 +32,14 @@
             <div id="controls">
                 <div id="point-inputs">
                     <div id="actions" style="margin-bottom: 0;">
-                        <button id="btn-read" title="Read Keyframes">⧆</button>
+                        <button id="btn-read" title="Read Keyframes"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M12 3L4.30909 3C3.5861 3 3 3.5861 3 4.30909L3 19.6909C3 20.4139 3.5861 21 4.30909 21L19.6909 21C20.4139 21 21 20.4139 21 19.6909L21 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/> <path d="M12 7C12 7 12.212 9.63887 13.2866 10.7135C14.3611 11.788 17 12 17 12C17 12 14.3611 12.212 13.2866 13.2866C12.212 14.3611 12 17 12 17C12 17 11.788 14.3611 10.7135 13.2866C9.63887 12.212 7 12 7 12C7 12 9.63887 11.788 10.7135 10.7135C11.788 9.63887 12 7 12 7Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/> <path d="M18.75 2.5C18.75 2.5 18.8666 3.95138 19.4576 4.5424C20.0486 5.13342 21.5 5.25 21.5 5.25C21.5 5.25 20.0486 5.36658 19.4576 5.9576C18.8666 6.54862 18.75 8 18.75 8C18.75 8 18.6334 6.54862 18.0424 5.9576C17.4514 5.36658 16 5.25 16 5.25C16 5.25 17.4514 5.13342 18.0424 4.5424C18.6334 3.95138 18.75 2.5 18.75 2.5Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/> </svg></button>
                     </div>
 
                     <div id="bezier-display" title="Click to edit">0.42, 0.00, 0.58, 1.00</div>
 
                     <div id="io-actions">
-                        <button id="btn-import-preset" title="Import Presets">📂</button>
-                        <button id="btn-export-preset" title="Export Presets">💾</button>
+                        <button id="btn-import-preset" title="Import Presets"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M21 14V20C21 20.5523 20.5025 21 19.8889 21H4.11111C3.49746 21 3 20.5523 3 20V14" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/> <path d="M17.0009 11L12.0009 15.9991L7.00085 11" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/> <path d="M12.0009 15.9974L12.0009 2.99918" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/> </svg></button>
+                        <button id="btn-export-preset" title="Export Presets"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M21 14V20C21 20.5523 20.5025 21 19.8889 21H4.11111C3.49746 21 3 20.5523 3 20V14" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/> <path d="M17.0009 7.99827L12.0009 2.99915L7.00085 7.99827" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/> <path d="M12.0009 3.00085L12.0009 15.9991" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/> </svg></button>
                     </div>
 
                     <div style="display: none;">
@@ -59,8 +59,8 @@
                 <div id="presets-header">
                     <span>Presets</span>
                     <div class="preset-buttons">
-                        <button id="btn-delete-selected" title="Delete Selected">×</button>
-                        <button id="btn-save-preset" title="Save Preset">+</button>
+                        <button id="btn-delete-selected" title="Delete Selected"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"> <path fill-rule="evenodd" clip-rule="evenodd" d="M5 8H19V19C19 20.1046 18.1046 21 17 21H7C5.89543 21 5 20.1046 5 19L5 8Z" stroke="White" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/> <path d="M4 5H9L10 3H14.0016L15 5H20" stroke="White" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/> <path d="M15 11.5L9 17.5" stroke="White" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/> <path d="M15 17.5L9 11.5" stroke="White" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/> </svg></button>
+                        <button id="btn-save-preset" title="Save Preset"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M17 2V4" stroke="White" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/> <path d="M7 2V4" stroke="White" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/> <path d="M17 13V21" stroke="White" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/> <path d="M21 17H13" stroke="White" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/> <path d="M8.03065 21C7.4255 21 6.51779 21 5.3075 21C4.50513 21 4.21417 20.9218 3.92084 20.775C3.62751 20.6283 3.3973 20.4129 3.24042 20.1384C3.08354 19.8639 3 19.5917 3 18.8409V6.15906C3 5.40831 3.08354 5.13607 3.24042 4.8616C3.3973 4.58714 3.62751 4.37174 3.92084 4.22495C4.21417 4.07817 4.50513 4 5.3075 4H18.6925C19.4949 4 19.7858 4.07817 20.0792 4.22495C20.3725 4.37174 20.6027 4.58714 20.7596 4.8616C20.9165 5.13607 21 6.24672 21 6.99747" stroke="White" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/> </svg></button>
                     </div>
                 </div>
                 <div id="presets-panel"></div>
@@ -98,7 +98,7 @@
                                 <option value="4:3">4:3 (1440x1080)</option>
                                 <option value="1:1">1:1 (1080x1080)</option>
                             </select>
-                            <button class="list-btn comp-btn-primary" id="tool-make-comp">Bikin Comp</button>
+                            <button class="list-btn comp-btn-primary" id="tool-make-comp">Create Comp</button>
                         </div>
                         <div class="comp-grid">
                             <button class="list-btn" id="tool-solid-fill">Solid Fill</button>
@@ -134,5 +134,31 @@
     <script src="./lib/CSInterface-4.0.0.js"></script>
     <script src="./curvase.js"></script>
     <script src="./ext.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const bgInput = document.getElementById('bg-file-input');
+            const audioControls = document.getElementById('audio-controls');
+            
+            if (bgInput) {
+                bgInput.addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if (!file) return;
+                    
+                    if (file.type.startsWith('video/')) {
+                        audioControls.classList.add('show-audio');
+                        setTimeout(() => {
+                            if (window.editor && window.editor.bgVideoElement) {
+                                window.editor.bgVideoElement.muted = false;
+                                window.editor.bgVideoElement.play();
+                            }
+                        }, 300);
+                    } else {
+                        audioControls.classList.remove('show-audio');
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>

@@ -4,16 +4,27 @@ var curvaseApp = (function() {
     var selectedIndex = -1;
 
     var allPresets = [
-        { name: "linear", x1: 0, y1: 0, x2: 1, y2: 1 },
-        { name: "ease", x1: 0.25, y1: 0.1, x2: 0.25, y2: 1 },
-        { name: "easeIn", x1: 0.42, y1: 0, x2: 1, y2: 1 },
-        { name: "easeOut", x1: 0, y1: 0, x2: 0.58, y2: 1 },
-        { name: "easeInOut", x1: 0.42, y1: 0, x2: 0.58, y2: 1 },
-        { name: "sineIn", x1: 0.47, y1: 0, x2: 0.745, y2: 0.715 },
-        { name: "sineOut", x1: 0.39, y1: 0.575, x2: 0.565, y2: 1 },
-        { name: "sineInOut", x1: 0.445, y1: 0.05, x2: 0.55, y2: 0.95 }
+        { name: "Linear", x1: 0.00, y1: 0.00, x2: 1.00, y2: 1.00 },
+        { name: "Ease", x1: 0.25, y1: 0.10, x2: 0.25, y2: 1.00 },
+        { name: "Ease In", x1: 0.42, y1: 0.00, x2: 1.00, y2: 1.00 },
+        { name: "Ease Out", x1: 0.00, y1: 0.00, x2: 0.58, y2: 1.00 },
+        { name: "Ease In Out", x1: 0.42, y1: 0.00, x2: 0.58, y2: 1.00 },
+        { name: "Fast 1", x1: 0.00, y1: 1.00, x2: 1.00, y2: 1.00 },
+        { name: "Fast 2", x1: 0.00, y1: 1.00, x2: 0.50, y2: 1.00 },
+        { name: "Fast 3", x1: 0.00, y1: 1.00, x2: 0.00, y2: 1.00 },
+        { name: "Slow 1", x1: 1.00, y1: 0.00, x2: 0.00, y2: 0.00 },
+        { name: "Slow 2", x1: 0.50, y1: 0.00, x2: 0.00, y2: 0.00 },
+        { name: "Slow 3", x1: 0.00, y1: 0.00, x2: 0.00, y2: 0.00 },
+        { name: "Urgent", x1: 0.00, y1: 1.00, x2: 0.00, y2: 0.00 },
+        { name: "Brisk", x1: 1.00, y1: 1.00, x2: 0.00, y2: 1.00 },
+        { name: "Uniform", x1: 1.00, y1: 0.00, x2: 1.00, y2: 1.00 },
+        { name: "Stark", x1: 0.00, y1: 0.00, x2: 1.00, y2: 0.00 },
+        { name: "None", x1: 0.00, y1: 0.00, x2: 0.00, y2: 1.00 },
+        { name: "Rough", x1: 1.00, y1: 0.00, x2: 0.00, y2: 1.00 },
+        { name: "Exposed", x1: 1.00, y1: 1.00, x2: 0.00, y2: 0.00 },
+        { name: "Inverse", x1: 1.00, y1: 1.00, x2: 1.00, y2: 1.00 },
+        { name: "Default", x1: 0.00, y1: 0.00, x2: 0.00, y2: 0.00 }
     ];
-
     function init() {
         try { csInterface = new CSInterface(); } catch(e) { return; }
         editor = new Curvase.BezierEditor("curve-canvas");

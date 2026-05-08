@@ -8,7 +8,7 @@ var Curvase = (function() {
     var Y_MIN = 0;
     var Y_MAX = 1;
     var Y_RANGE = Y_MAX - Y_MIN;
-    var MAX_SPEED = 3.0; // Skala agar puncak gunung tidak terlalu cepat out of bounds
+    var MAX_SPEED = 3.0;
 
     var RESET_VALUES = [0.42, 0, 0.58, 1.0];
 
@@ -579,7 +579,7 @@ var Curvase = (function() {
 
         } else {
 
-            // --- TRUE SPEED GRAPH MODE ---
+
             var p0 = this.points[0];
             var p1 = this.points[this.points.length - 1];
 
@@ -589,7 +589,7 @@ var Curvase = (function() {
             
             var steps = 100; 
 
-            // MODIFIKASI: Cari kecepatan maksimal dulu supaya garis tidak tembus grid atas
+
             var currentMaxSpeed = MAX_SPEED;
             for (var k = 0; k <= steps; k++) {
                 var t = k / steps;
@@ -610,7 +610,7 @@ var Curvase = (function() {
                 var speed = 0;
                 if (Math.abs(dxdt) > 0.0001) speed = dydt / dxdt;
                 var px = this._toX(xt);
-                // MODIFIKASI: Gunakan currentMaxSpeed agar tinggi proporsional dan tidak keluar grid
+
                 var py = this._toY(speed / currentMaxSpeed);
                 if (k === 0) ctx.moveTo(px, py);
                 else ctx.lineTo(px, py);
