@@ -21,9 +21,8 @@ body, button, input, span, label { font-style: italic !important; }
 #volume-slider { -webkit-appearance: none; width: 50px; height: 3px; cursor: pointer; background: #ffffff; outline: none; border-radius: 2px; }
 #volume-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 8px; height: 8px; background: #00d4aa; border-radius: 50%; cursor: pointer; border: none; }
 
-/* KODE BARU: Layout untuk dua panel supaya tidak tumpang tindih */
 #view-curve { display: flex; flex-direction: column; flex: 1; min-height: 0; }
-#view-tools { display: flex; flex: 1; align-items: flex-start; justify-content: center; padding-top: 15px; }
+#view-tools { display: flex; flex: 1; align-items: center; justify-content: center; padding-bottom: 20px; }
 
 #canvas-container { flex: 1; background: #181818; border-radius: 4px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
 #bg-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; background-size: contain; background-repeat: no-repeat; background-position: center; pointer-events: none; opacity: 0.4; }
@@ -72,17 +71,16 @@ body, button, input, span, label { font-style: italic !important; }
 #btn-modal-save { background: #00d4aa; color: #000; }
 #btn-modal-save:hover { background: #00e5b8; }
 
-/* KODE BARU: Styling Khusus Halaman Demak Demek Tools Sesuai Screenshot */
-.tools-layout { display: flex; gap: 30px; }
-.tools-col { display: flex; flex-direction: column; gap: 15px; }
-.tools-group { display: flex; flex-direction: column; align-items: center; background: rgba(255, 255, 255, 0.03); padding: 12px; border-radius: 6px; }
-.tools-label { color: #bbb; font-style: normal !important; margin-bottom: 8px; font-size: 13px; }
+/* KODE BARU: Styling Demak Demek Tools Sejajar 3 Kolom */
+.tools-layout { display: flex; gap: 20px; align-items: flex-start; justify-content: center; width: 100%; }
+.tools-group { display: flex; flex-direction: column; align-items: center; background: rgba(255, 255, 255, 0.03); padding: 15px; border-radius: 6px; }
+.tools-label { color: #bbb; font-style: normal !important; margin-bottom: 12px; font-size: 13px; }
 
-.grid-3x3 { display: grid; grid-template-columns: repeat(3, 28px); grid-template-rows: repeat(3, 28px); gap: 3px; }
+.grid-3x3 { display: grid; grid-template-columns: repeat(3, 30px); grid-template-rows: repeat(3, 30px); gap: 4px; }
 .list-tools { display: flex; flex-direction: column; gap: 6px; }
 
 .grid-btn, .list-btn { background: #111; border: 1px solid #333; color: #eee; cursor: pointer; border-radius: 4px; font-style: normal !important; transition: background 0.2s, border-color 0.2s; }
 .grid-btn { display: flex; align-items: center; justify-content: center; font-size: 14px; padding-bottom: 2px;}
-.list-btn { width: 110px; height: 26px; font-size: 12px; }
+.list-btn { width: 120px; height: 28px; font-size: 12px; }
 
 .grid-btn:hover, .list-btn:hover { background: #222; border-color: #555; }

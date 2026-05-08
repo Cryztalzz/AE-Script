@@ -24,7 +24,6 @@
             </div>
         </div>
 
-        <!-- WRAPPER MODE CURVASE -->
         <div id="view-curve">
             <div id="canvas-container">
                 <canvas id="curve-canvas"></canvas>
@@ -68,39 +67,33 @@
             </div>
         </div>
 
-        <!-- WRAPPER MODE DEMAK DEMEK TOOLS -->
         <div id="view-tools" style="display: none;">
             <div class="tools-layout">
-                <!-- Kolom Kiri: Anchor & Align -->
-                <div class="tools-col">
-                    <div class="tools-group">
-                        <div class="tools-label">Anchor</div>
-                        <div class="grid-3x3">
-                            <button class="grid-btn" id="anc-tl">↖</button> <button class="grid-btn" id="anc-tc">↑</button> <button class="grid-btn" id="anc-tr">↗</button>
-                            <button class="grid-btn" id="anc-ml">←</button> <button class="grid-btn" id="anc-mc">⊕</button> <button class="grid-btn" id="anc-mr">→</button>
-                            <button class="grid-btn" id="anc-bl">↙</button> <button class="grid-btn" id="anc-bc">↓</button> <button class="grid-btn" id="anc-br">↘</button>
-                        </div>
-                    </div>
-                    <div class="tools-group">
-                        <div class="tools-label">Align</div>
-                        <div class="grid-3x3">
-                            <button class="grid-btn" id="ali-tl">↖</button> <button class="grid-btn" id="ali-tc">↑</button> <button class="grid-btn" id="ali-tr">↗</button>
-                            <button class="grid-btn" id="ali-ml">←</button> <button class="grid-btn" id="ali-mc">⊕</button> <button class="grid-btn" id="ali-mr">→</button>
-                            <button class="grid-btn" id="ali-bl">↙</button> <button class="grid-btn" id="ali-bc">↓</button> <button class="grid-btn" id="ali-br">↘</button>
-                        </div>
+                <div class="tools-group">
+                    <div class="tools-label">Anchor</div>
+                    <div class="grid-3x3">
+                        <button class="grid-btn" id="anc-tl">↖</button> <button class="grid-btn" id="anc-tc">↑</button> <button class="grid-btn" id="anc-tr">↗</button>
+                        <button class="grid-btn" id="anc-ml">←</button> <button class="grid-btn" id="anc-mc">⊕</button> <button class="grid-btn" id="anc-mr">→</button>
+                        <button class="grid-btn" id="anc-bl">↙</button> <button class="grid-btn" id="anc-bc">↓</button> <button class="grid-btn" id="anc-br">↘</button>
                     </div>
                 </div>
                 
-                <!-- Kolom Kanan: Layer Tools -->
-                <div class="tools-col">
-                    <div class="tools-group" style="padding-top: 5px;">
-                        <div class="tools-label" style="margin-bottom: 12px;">Layer Tools</div>
-                        <div class="list-tools">
-                            <button class="list-btn" id="tool-solid">New Solid</button>
-                            <button class="list-btn" id="tool-null">New Null</button>
-                            <button class="list-btn" id="tool-precomp">Precompose</button>
-                            <button class="list-btn" id="tool-adj">New Adjustment</button>
-                        </div>
+                <div class="tools-group">
+                    <div class="tools-label">Align</div>
+                    <div class="grid-3x3">
+                        <button class="grid-btn" id="ali-tl">↖</button> <button class="grid-btn" id="ali-tc">↑</button> <button class="grid-btn" id="ali-tr">↗</button>
+                        <button class="grid-btn" id="ali-ml">←</button> <button class="grid-btn" id="ali-mc">⊕</button> <button class="grid-btn" id="ali-mr">→</button>
+                        <button class="grid-btn" id="ali-bl">↙</button> <button class="grid-btn" id="ali-bc">↓</button> <button class="grid-btn" id="ali-br">↘</button>
+                    </div>
+                </div>
+
+                <div class="tools-group">
+                    <div class="tools-label">Layer Tools</div>
+                    <div class="list-tools">
+                        <button class="list-btn" id="tool-solid">New Solid</button>
+                        <button class="list-btn" id="tool-null">New Null</button>
+                        <button class="list-btn" id="tool-precomp">Precompose</button>
+                        <button class="list-btn" id="tool-adj">New Adjustment</button>
                     </div>
                 </div>
             </div>
@@ -108,7 +101,6 @@
 
     </div>
 
-    <!-- Edit Modal -->
     <div id="edit-modal" class="modal">
         <div class="modal-content">
             <h3 style="margin-bottom: 5px; color: #eee; font-weight: normal;">Enter new values</h3>

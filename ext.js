@@ -22,7 +22,6 @@ var curvaseApp = (function() {
         loadData();
         render();
 
-        // KODE BARU: Inject Global Script Demak Demek ke ExtendScript Engine
         var demakLogic = `
         if(typeof $._demak === "undefined") {
             $._demak = {
@@ -127,7 +126,6 @@ var curvaseApp = (function() {
         `;
         csInterface.evalScript(demakLogic);
 
-        // KODE BARU: Logic Toggle View
         var btnMode = document.getElementById("ext-name");
         var viewCurve = document.getElementById("view-curve");
         var viewTools = document.getElementById("view-tools");
@@ -138,7 +136,7 @@ var curvaseApp = (function() {
             if (isToolsMode) {
                 viewCurve.style.display = "none";
                 viewTools.style.display = "flex";
-                btnMode.style.color = "#ff8c42"; // Ganti warna jadi orange biar nandain beda mode
+                btnMode.style.color = "#ff8c42"; 
             } else {
                 viewCurve.style.display = "flex";
                 viewTools.style.display = "none";
@@ -146,11 +144,10 @@ var curvaseApp = (function() {
             }
         };
 
-        // KODE BARU: Binding Event Klik Tombol Demak Demek
         function bindDemakBtn(id, scriptStr) {
             document.getElementById(id).onclick = function() { csInterface.evalScript(scriptStr); };
         }
-        // Anchor Binds
+        
         bindDemakBtn("anc-tl", "$._demak.moveAnchor('left', 'top')");
         bindDemakBtn("anc-tc", "$._demak.moveAnchor('center', 'top')");
         bindDemakBtn("anc-tr", "$._demak.moveAnchor('right', 'top')");
@@ -160,7 +157,7 @@ var curvaseApp = (function() {
         bindDemakBtn("anc-bl", "$._demak.moveAnchor('left', 'bottom')");
         bindDemakBtn("anc-bc", "$._demak.moveAnchor('center', 'bottom')");
         bindDemakBtn("anc-br", "$._demak.moveAnchor('right', 'bottom')");
-        // Align Binds
+        
         bindDemakBtn("ali-tl", "$._demak.alignLayer('left', 'top')");
         bindDemakBtn("ali-tc", "$._demak.alignLayer('center', 'top')");
         bindDemakBtn("ali-tr", "$._demak.alignLayer('right', 'top')");
@@ -170,14 +167,11 @@ var curvaseApp = (function() {
         bindDemakBtn("ali-bl", "$._demak.alignLayer('left', 'bottom')");
         bindDemakBtn("ali-bc", "$._demak.alignLayer('center', 'bottom')");
         bindDemakBtn("ali-br", "$._demak.alignLayer('right', 'bottom')");
-        // Layer Tools Binds
+        
         bindDemakBtn("tool-solid", "$._demak.newSolid()");
         bindDemakBtn("tool-null", "$._demak.newNull()");
         bindDemakBtn("tool-precomp", "$._demak.precomp()");
         bindDemakBtn("tool-adj", "$._demak.newAdj()");
-
-
-        // ================= KODE LAMA CURVASE (TIDAK BERUBAH) =================
 
         var btnSpeed = document.getElementById("btn-speed-mode");
         btnSpeed.onclick = function() {
