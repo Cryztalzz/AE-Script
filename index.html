@@ -1,0 +1,130 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Curvase</title>
+    <link rel="stylesheet" type="text/css" href="./style.css">
+</head>
+<body>
+    <div id="curvase-app">
+        <div id="header">
+            <div id="header-left">
+                <span id="ext-name" title="Toggle Tools Mode">Mode</span>
+                <span id="ext-author">Developer</span>
+            </div>
+            
+            <div id="header-right">
+                <span id="btn-speed-mode" title="Toggle Speed Graph">SPEED</span>
+                <div id="audio-controls">
+                    <input type="range" id="volume-slider" min="0" max="1" step="0.1" value="1" title="Volume">
+                    <button id="btn-mute" title="Mute/Unmute">🔊</button>
+                </div>
+                <button id="btn-bg">BG</button>
+                <input type="file" id="bg-file-input" style="display:none">
+            </div>
+        </div>
+
+        <!-- WRAPPER MODE CURVASE -->
+        <div id="view-curve">
+            <div id="canvas-container">
+                <canvas id="curve-canvas"></canvas>
+            </div>
+
+            <div id="controls">
+                <div id="point-inputs">
+                    <div id="actions" style="margin-bottom: 0;">
+                        <button id="btn-read" title="Read Keyframes">⧆</button>
+                    </div>
+
+                    <div id="bezier-display" title="Click to edit">0.42, 0.00, 0.58, 1.00</div>
+
+                    <div id="io-actions">
+                        <button id="btn-import-preset" title="Import Presets">📂</button>
+                        <button id="btn-export-preset" title="Export Presets">💾</button>
+                    </div>
+
+                    <div style="display: none;">
+                        <input type="number" id="x1" step="0.01" value="0.25">
+                        <input type="number" id="y1" step="0.01" value="0.10">
+                        <input type="number" id="x2" step="0.01" value="0.25">
+                        <input type="number" id="y2" step="0.01" value="1.00">
+                    </div>
+                </div>
+
+                <div id="actions">
+                    <button id="btn-apply">Apply</button>
+                </div>
+
+                <div id="resizer"></div>
+
+                <div id="presets-header">
+                    <span>Presets</span>
+                    <div class="preset-buttons">
+                        <button id="btn-delete-selected" title="Delete Selected">×</button>
+                        <button id="btn-save-preset" title="Save Preset">+</button>
+                    </div>
+                </div>
+                <div id="presets-panel"></div>
+            </div>
+        </div>
+
+        <!-- WRAPPER MODE DEMAK DEMEK TOOLS -->
+        <div id="view-tools" style="display: none;">
+            <div class="tools-layout">
+                <!-- Kolom Kiri: Anchor & Align -->
+                <div class="tools-col">
+                    <div class="tools-group">
+                        <div class="tools-label">Anchor</div>
+                        <div class="grid-3x3">
+                            <button class="grid-btn" id="anc-tl">↖</button> <button class="grid-btn" id="anc-tc">↑</button> <button class="grid-btn" id="anc-tr">↗</button>
+                            <button class="grid-btn" id="anc-ml">←</button> <button class="grid-btn" id="anc-mc">⊕</button> <button class="grid-btn" id="anc-mr">→</button>
+                            <button class="grid-btn" id="anc-bl">↙</button> <button class="grid-btn" id="anc-bc">↓</button> <button class="grid-btn" id="anc-br">↘</button>
+                        </div>
+                    </div>
+                    <div class="tools-group">
+                        <div class="tools-label">Align</div>
+                        <div class="grid-3x3">
+                            <button class="grid-btn" id="ali-tl">↖</button> <button class="grid-btn" id="ali-tc">↑</button> <button class="grid-btn" id="ali-tr">↗</button>
+                            <button class="grid-btn" id="ali-ml">←</button> <button class="grid-btn" id="ali-mc">⊕</button> <button class="grid-btn" id="ali-mr">→</button>
+                            <button class="grid-btn" id="ali-bl">↙</button> <button class="grid-btn" id="ali-bc">↓</button> <button class="grid-btn" id="ali-br">↘</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Kolom Kanan: Layer Tools -->
+                <div class="tools-col">
+                    <div class="tools-group" style="padding-top: 5px;">
+                        <div class="tools-label" style="margin-bottom: 12px;">Layer Tools</div>
+                        <div class="list-tools">
+                            <button class="list-btn" id="tool-solid">New Solid</button>
+                            <button class="list-btn" id="tool-null">New Null</button>
+                            <button class="list-btn" id="tool-precomp">Precompose</button>
+                            <button class="list-btn" id="tool-adj">New Adjustment</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Edit Modal -->
+    <div id="edit-modal" class="modal">
+        <div class="modal-content">
+            <h3 style="margin-bottom: 5px; color: #eee; font-weight: normal;">Enter new values</h3>
+            <p style="text-align: center; color: #aaa; margin-bottom: 15px; font-size: 11px;">Format "x1, y1, x2, y2"</p>
+            <div style="display: flex; justify-content: center; margin-bottom: 15px;">
+                <input type="text" id="m-bezier-val" style="width: 100%; text-align: center; padding: 6px; background: #111; border: 1px solid #444; color: #fff; border-radius: 3px; font-size: 12px; outline: none;">
+            </div>
+            <div class="modal-actions">
+                <button id="btn-modal-cancel">Cancel</button>
+                <button id="btn-modal-save">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="./lib/CSInterface-4.0.0.js"></script>
+    <script src="./curvase.js"></script>
+    <script src="./ext.js"></script>
+</body>
+</html>
