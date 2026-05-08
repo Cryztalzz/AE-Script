@@ -1,0 +1,85 @@
+body {
+    background-color: #232323;
+    color: #e0e0e0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 10px;
+    font-size: 12px;
+}
+
+.section-title {
+    font-size: 11px;
+    color: #888;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.separator {
+    border-top: 1px solid #3a3a3a;
+    margin: 15px 0;
+}
+
+.dropdown-group {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+
+select {
+    flex: 1;
+    background-color: #333;
+    color: white;
+    border: 1px solid #444;
+    border-radius: 3px;
+    padding: 6px;
+    font-size: 11px;
+}
+
+.button-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+}
+
+button {
+    background-color: #2d8ceb;
+    color: white;
+    border: none;
+    padding: 7px;
+    border-radius: 3px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 11px;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+button:hover { background-color: #1a73e8; }
+
+.watermark-ui {
+    margin-top: 25px;
+    text-align: center;
+    font-size: 10px;
+    color: #444;
+    letter-spacing: 2px;
+    font-weight: bold;
+    user-select: none;
+    pointer-events: none;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #232323;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #4a4a4a;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #666666;
+}

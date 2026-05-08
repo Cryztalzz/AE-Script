@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Inilah Shortcut Gueh</title>
+    <link rel="stylesheet" href="./style.css">
+    <script src="./CSInterface.js"></script>
+</head>
+<body>
+    <div class="section-title">Essentials</div>
+    
+    <div class="dropdown-group">
+        <select id="pilihComp">
+            <option value="16:9">16:9 (1920x1080)</option>
+            <option value="4:3">4:3 (1440x1080)</option>
+            <option value="1:1">1:1 (1080x1080)</option>
+        </select>
+        <button id="btnBikinCompOtomatis">Bikin Comp</button>
+    </div>
+
+    <div class="button-grid">
+        <button id="btnSolidFill">Solid</button>
+        <button id="btnCam15">Camera 15mm</button>
+        <button id="btnNullParent">Null + Parent</button>
+        <button id="btnTeksTengah">Text</button>
+        <button id="btnAdjComp">Adjustment (Comp)</button>
+        <button id="btnAdjLayer">Adjustment (Layer)</button>
+    </div>
+
+    <div class="separator"></div>
+
+    <div class="section-title">Preset Gweh</div>
+    
+    <div class="dropdown-group">
+        <select id="pilihGlitch">
+            <option value="Glitch1.ffx">1 Frame Glitch 1</option>
+            <option value="Glitch2.ffx">1 Frame Glitch 2</option>
+            <option value="Glitch3.ffx">1 Frame Glitch 3</option>
+        </select>
+        <button id="btnApplyGlitch">Apply Glitch</button>
+    </div>
+
+    <div class="dropdown-group">
+        <select id="pilihMT">
+            <option value="tile300.ffx">Motion Tile 300</option>
+            <option value="tile500.ffx">Motion Tile 500</option>
+        </select>
+        <button id="btnApplyMT">Apply Motile</button>
+    </div>
+
+    <div class="button-grid">
+        <button id="btnTeksAnimasi">Teks Animasi</button>
+        <button id="btnRadiant">Radiant Ramp</button>
+        <button id="btnTwitch" style="grid-column: span 2;">Twitch Preset</button>
+    </div>
+
+    <div class="separator"></div>
+
+    <!-- WATERMARK UI -->
+    <div class="watermark-ui">
+        Alztod Shortcuts v1.0
+    </div>
+    
+    <script src="./main.js"></script>
+
+</body>
+</html>
