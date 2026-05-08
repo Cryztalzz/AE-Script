@@ -23,8 +23,8 @@ var curvaseApp = (function() {
         render();
 
         var demakLogic = `
-        if(typeof $._demak === "undefined") {
-            $._demak = {
+        $._demak = $._demak || {};
+            Object.assign($._demak, {
                 moveAnchor: function(x, y) {
                     app.beginUndoGroup("Move Anchor");
                     var comp = app.project.activeItem;
@@ -85,6 +85,67 @@ var curvaseApp = (function() {
                     }
                     app.endUndoGroup();
                 },
+                ensureComp: function(rasio) {
+                    var comp = app.project.activeItem;
+                    if (comp && (comp instanceof CompItem)) return comp;
+                    var w = 1920, h = 1080;
+                    if (rasio === "4:3") { w = 1440; h = 1080; }
+                    else if (rasio === "1:1") { w = 1080; h = 1080; }
+                    comp = app.project.items.addComp("Comp " + rasio, w, h, 1, 10, 30);
+                    comp.openInViewer();
+                    return comp;
+                },
+                makeComp: function(rasio) {
+                    app.beginUndoGroup("Bikin Comp " + rasio);
+                    var w = 1920, h = 1080;
+                    if (rasio === "4:3") { w = 1440; h = 1080; }
+                    else if (rasio === "1:1") { w = 1080; h = 1080; }
+                    var comp = app.project.items.addComp("Comp " + rasio, w, h, 1, 10, 30);
+                    comp.openInViewer();
+                    app.endUndoGroup();
+                },
+                solidFill: function(rasio) {
+                    app.beginUndoGroup("Solid + Fill Hitam");
+                    var comp = $._demak.ensureComp(rasio);
+                    var solid = comp.layers.addSolid([0, 0, 0], "Solid Hitam", comp.width, comp.height, 1, comp.duration);
+                    var fillFx = solid.property("ADBE Effect Parade").addProperty("ADBE Fill");
+                    fillFx.property("Color").setValue([0, 0, 0]);
+                    app.endUndoGroup();
+                },
+                cam15: function(rasio) {
+                    app.beginUndoGroup("Kamera 15mm");
+                    var comp = $._demak.ensureComp(rasio);
+                    var cam = comp.layers.addCamera("Kamera 15mm", [comp.width / 2, comp.height / 2]);
+                    var zoom = (comp.width / 36) * 15;
+                    cam.property("ADBE Camera Zoom").setValue(zoom);
+                    app.endUndoGroup();
+                },
+                nullParent: function() {
+                    app.beginUndoGroup("Null Parent & Track");
+                    var comp = app.project.activeItem;
+                    if (!(comp instanceof CompItem)) { app.endUndoGroup(); return; }
+                    var selectedLayers = comp.selectedLayers;
+                    var targetLayer = selectedLayers.length > 0 ? selectedLayers[0] : null;
+                    var nullLayer = comp.layers.addNull(comp.duration);
+                    if (targetLayer) {
+                        nullLayer.moveBefore(targetLayer);
+                        nullLayer.parent = targetLayer;
+                    } else if (comp.numLayers >= 2) {
+                        nullLayer.parent = comp.layer(2);
+                    }
+                    app.endUndoGroup();
+                },
+                textCenter: function(rasio) {
+                    app.beginUndoGroup("Teks Tengah");
+                    var comp = $._demak.ensureComp(rasio);
+                    var txt = comp.layers.addText("ANJAY");
+                    var r = txt.sourceRectAtTime(0, false);
+                    var anchorX = r.left + (r.width / 2);
+                    var anchorY = r.top + (r.height / 2);
+                    txt.property("ADBE Transform Group").property("ADBE Anchor Point").setValue([anchorX, anchorY]);
+                    txt.property("ADBE Transform Group").property("ADBE Position").setValue([comp.width / 2, comp.height / 2]);
+                    app.endUndoGroup();
+                },
                 newSolid: function() {
                     var c = app.project.activeItem;
                     if (!(c instanceof CompItem)) return;
@@ -115,14 +176,29 @@ var curvaseApp = (function() {
                     adj.label = 5;
                     app.endUndoGroup();
                 },
+                newAdjLayer: function() {
+                    app.beginUndoGroup("Adj Layer (Target)");
+                    var comp = app.project.activeItem;
+                    if (!(comp instanceof CompItem)) { app.endUndoGroup(); return; }
+                    var selectedLayers = comp.selectedLayers;
+                    if (selectedLayers.length === 0) { app.endUndoGroup(); return; }
+                    var targetLayer = selectedLayers[0];
+                    var adjLayer = comp.layers.addSolid([1, 1, 1], "Adjustment (Target)", comp.width, comp.height, 1, comp.duration);
+                    adjLayer.adjustmentLayer = true;
+                    adjLayer.label = 5;
+                    adjLayer.moveBefore(targetLayer);
+                    adjLayer.startTime = targetLayer.startTime;
+                    adjLayer.inPoint = targetLayer.inPoint;
+                    adjLayer.outPoint = targetLayer.outPoint;
+                    app.endUndoGroup();
+                },
                 precomp: function() {
                     var c = app.project.activeItem;
                     if (!(c instanceof CompItem)) return;
                     if (c.selectedLayers.length === 0) return;
                     try { app.executeCommand(2071); } catch(e) {}
                 }
-            };
-        }
+            });
         `;
         csInterface.evalScript(demakLogic);
 
@@ -168,10 +244,19 @@ var curvaseApp = (function() {
         bindDemakBtn("ali-bc", "$._demak.alignLayer('center', 'bottom')");
         bindDemakBtn("ali-br", "$._demak.alignLayer('right', 'bottom')");
         
-        bindDemakBtn("tool-solid", "$._demak.newSolid()");
-        bindDemakBtn("tool-null", "$._demak.newNull()");
-        bindDemakBtn("tool-precomp", "$._demak.precomp()");
-        bindDemakBtn("tool-adj", "$._demak.newAdj()");
+        function getCompRatio() {
+            var ratioEl = document.getElementById("tool-comp-ratio");
+            return ratioEl ? ratioEl.value : "16:9";
+        }
+        document.getElementById("tool-make-comp").onclick = function() { csInterface.evalScript("buatCompCustom('" + getCompRatio() + "')"); };
+        document.getElementById("tool-solid-fill").onclick = function() { csInterface.evalScript("buatSolidFill('" + getCompRatio() + "')"); };
+        document.getElementById("tool-cam-15").onclick = function() { csInterface.evalScript("buatKamera15mm('" + getCompRatio() + "')"); };
+        document.getElementById("tool-null-parent").onclick = function() { csInterface.evalScript("buatNullParent()"); };
+        document.getElementById("tool-text-center").onclick = function() { csInterface.evalScript("buatTeksTengah('" + getCompRatio() + "')"); };
+        document.getElementById("tool-adj-comp").onclick = function() { csInterface.evalScript("buatAdjComp()"); };
+        document.getElementById("tool-adj-layer").onclick = function() { csInterface.evalScript("buatAdjLayer()"); };
+        document.getElementById("tool-precomp").onclick = function() { csInterface.evalScript("buatPrecompose()"); };
+        document.getElementById("tool-light").onclick = function() { csInterface.evalScript("buatLight('" + getCompRatio() + "')"); };
 
         var btnSpeed = document.getElementById("btn-speed-mode");
         btnSpeed.onclick = function() {

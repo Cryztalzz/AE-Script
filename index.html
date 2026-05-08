@@ -89,13 +89,27 @@
                     </div>
                 </div>
 
-                <div class="tools-group tools-group-layer">
-                    <div class="tools-label">Layer Tools</div>
-                    <div class="list-tools">
-                        <button class="list-btn" id="tool-solid">New Solid</button>
-                        <button class="list-btn" id="tool-null">New Null</button>
-                        <button class="list-btn" id="tool-precomp">Precompose</button>
-                        <button class="list-btn" id="tool-adj">New Adjustment</button>
+                <div class="tools-group tools-group-comp">
+                    <div class="tools-label">Composition</div>
+                    <div class="comp-tools">
+                        <div class="comp-create-row">
+                            <select id="tool-comp-ratio">
+                                <option value="16:9">16:9 (1920x1080)</option>
+                                <option value="4:3">4:3 (1440x1080)</option>
+                                <option value="1:1">1:1 (1080x1080)</option>
+                            </select>
+                            <button class="list-btn comp-btn-primary" id="tool-make-comp">Bikin Comp</button>
+                        </div>
+                        <div class="comp-grid">
+                            <button class="list-btn" id="tool-solid-fill">Solid Fill</button>
+                            <button class="list-btn" id="tool-cam-15">Camera 15mm</button>
+                            <button class="list-btn" id="tool-null-parent">Null + Parent</button>
+                            <button class="list-btn" id="tool-text-center">Text Center</button>
+                            <button class="list-btn" id="tool-adj-comp">Adjustment (Comp)</button>
+                            <button class="list-btn" id="tool-adj-layer">Adjustment (Layer)</button>
+                            <button class="list-btn" id="tool-precomp">Precompose</button>
+                            <button class="list-btn" id="tool-light">Light</button>
+                        </div>
                     </div>
                 </div>
             </div>

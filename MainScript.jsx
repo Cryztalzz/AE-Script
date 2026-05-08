@@ -807,3 +807,142 @@ $._curvase = {
         }
     }
 };
+
+function cekDanBikinComp(rasio) {
+    var comp = app.project.activeItem;
+    if (comp == null || !(comp instanceof CompItem)) {
+        var w = 1920;
+        var h = 1080;
+        if (rasio === "4:3") { w = 1440; h = 1080; }
+        else if (rasio === "1:1") { w = 1080; h = 1080; }
+        comp = app.project.items.addComp("Comp " + rasio, w, h, 1, 10, 30);
+        comp.openInViewer();
+    }
+    return comp;
+}
+
+function buatCompCustom(rasio) {
+    app.beginUndoGroup("Bikin Comp " + rasio);
+    var w = 1920;
+    var h = 1080;
+    if (rasio === "4:3") { w = 1440; h = 1080; }
+    else if (rasio === "1:1") { w = 1080; h = 1080; }
+    var comp = app.project.items.addComp("Comp " + rasio, w, h, 1, 10, 30);
+    comp.openInViewer();
+    app.endUndoGroup();
+}
+
+function buatSolidFill(rasio) {
+    app.beginUndoGroup("Solid + Fill Hitam");
+    var comp = cekDanBikinComp(rasio);
+    var solid = comp.layers.addSolid([0, 0, 0], "Solid Hitam", comp.width, comp.height, 1, comp.duration);
+    var fillEffect = solid.property("ADBE Effect Parade").addProperty("ADBE Fill");
+    fillEffect.property("Color").setValue([0, 0, 0]);
+    app.endUndoGroup();
+}
+
+function buatKamera15mm(rasio) {
+    app.beginUndoGroup("Kamera 15mm");
+    var comp = cekDanBikinComp(rasio);
+    var cam = comp.layers.addCamera("Kamera 15mm", [comp.width / 2, comp.height / 2]);
+    var zoomHitung = (comp.width / 36) * 15;
+    cam.property("ADBE Camera Zoom").setValue(zoomHitung);
+    app.endUndoGroup();
+}
+
+function buatNullParent() {
+    app.beginUndoGroup("Null Parent & Track");
+    var comp = app.project.activeItem;
+    if (comp == null || !(comp instanceof CompItem)) {
+        app.endUndoGroup();
+        return;
+    }
+    var layerYangDipilih = comp.selectedLayers;
+    var adaTarget = layerYangDipilih.length > 0;
+    var targetLayer = adaTarget ? layerYangDipilih[0] : null;
+    var nullLayer = comp.layers.addNull(comp.duration);
+    if (adaTarget && targetLayer != null) {
+        nullLayer.moveBefore(targetLayer);
+        nullLayer.parent = targetLayer;
+    } else if (comp.numLayers >= 2) {
+        nullLayer.parent = comp.layer(2);
+    }
+    app.endUndoGroup();
+}
+
+function buatTeksTengah(rasio) {
+    app.beginUndoGroup("Teks Tengah");
+    var comp = cekDanBikinComp(rasio);
+    var txtLayer = comp.layers.addText("ANJAY");
+    var txtRect = txtLayer.sourceRectAtTime(0, false);
+    var anchorX = txtRect.left + (txtRect.width / 2);
+    var anchorY = txtRect.top + (txtRect.height / 2);
+    txtLayer.property("ADBE Transform Group").property("ADBE Anchor Point").setValue([anchorX, anchorY]);
+    txtLayer.property("ADBE Transform Group").property("ADBE Position").setValue([comp.width / 2, comp.height / 2]);
+    app.endUndoGroup();
+}
+
+function buatAdjComp() {
+    app.beginUndoGroup("Adj Layer (Comp)");
+    var comp = app.project.activeItem;
+    if (comp == null || !(comp instanceof CompItem)) {
+        app.endUndoGroup();
+        return;
+    }
+    var adjLayer = comp.layers.addSolid([1, 1, 1], "Adjustment Layer", comp.width, comp.height, 1, comp.duration);
+    adjLayer.adjustmentLayer = true;
+    adjLayer.label = 5;
+    app.endUndoGroup();
+}
+
+function buatAdjLayer() {
+    app.beginUndoGroup("Adj Layer (Target)");
+    var comp = app.project.activeItem;
+    if (comp == null || !(comp instanceof CompItem)) {
+        app.endUndoGroup();
+        return;
+    }
+    var layerYangDipilih = comp.selectedLayers;
+    if (layerYangDipilih.length === 0) {
+        app.endUndoGroup();
+        return;
+    }
+    var targetLayer = layerYangDipilih[0];
+    var adjLayer = comp.layers.addSolid([1, 1, 1], "Adjustment (Target)", comp.width, comp.height, 1, comp.duration);
+    adjLayer.adjustmentLayer = true;
+    adjLayer.label = 5;
+    adjLayer.moveBefore(targetLayer);
+    adjLayer.startTime = targetLayer.startTime;
+    adjLayer.inPoint = targetLayer.inPoint;
+    adjLayer.outPoint = targetLayer.outPoint;
+    app.endUndoGroup();
+}
+
+function buatPrecompose() {
+    app.beginUndoGroup("Precompose");
+    var comp = app.project.activeItem;
+    if (comp == null || !(comp instanceof CompItem) || comp.selectedLayers.length === 0) {
+        app.endUndoGroup();
+        return;
+    }
+    try {
+        app.executeCommand(2071);
+    } catch (e) {
+    }
+    app.endUndoGroup();
+}
+
+function buatLight(rasio) {
+    app.beginUndoGroup("New Light");
+    var comp = cekDanBikinComp(rasio);
+    if (comp == null || !(comp instanceof CompItem)) {
+        app.endUndoGroup();
+        return;
+    }
+    var lightLayer = comp.layers.addLight("Light 1", [comp.width / 2, comp.height / 2]);
+    try {
+        lightLayer.property("ADBE Light Options Group").property("ADBE Light Intensity").setValue(100);
+    } catch (e) {
+    }
+    app.endUndoGroup();
+}
