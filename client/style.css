@@ -79,6 +79,7 @@ button:hover { background-color: #1a73e8; }
     padding: 6px 2px;
     font-size: 10px;
     flex: 1;
+    cursor: pointer;
 }
 
 .tab-btn.active {
@@ -130,4 +131,18 @@ button:hover { background-color: #1a73e8; }
 input:checked + .slider { background-color: #2d8ceb; }
 input:checked + .slider:before { transform: translateX(12px); }
 
-.watermark-ui { margin-top: 25px; text-align: center; font-size: 10px; color: #444; letter-spacing: 2px; font-weight: bold; pointer-events: none; }
+.watermark-ui { 
+    margin-top: 25px; 
+    text-align: center; 
+    font-size: 10px; 
+    color: #444; 
+    letter-spacing: 2px; 
+    font-weight: bold; 
+    pointer-events: none; 
+}
+
+/* SCROLLBAR BROWSER/AE */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #4a4a4a; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: #666666; }
