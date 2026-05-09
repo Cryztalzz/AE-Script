@@ -125,53 +125,152 @@ function autoOrganizeProject() {
 function unPrecompose() {
     app.beginUndoGroup("Un-Precompose Pro");
     var comp = app.project.activeItem;
+    
     if (comp == null || !(comp instanceof CompItem) || comp.selectedLayers.length !== 1) {
-        alert("Cuma bisa pilih 1 layer Composition!");
+        alert("Cuma bisa pilih 1 layer composition!");
         return;
     }
 
     var precompLayer = comp.selectedLayers[0];
     if (!(precompLayer.source instanceof CompItem)) {
-        alert("Ini bukan layer Composition!");
+        alert("Ini bukan layer composition!");
         return;
     }
 
     var sourceComp = precompLayer.source;
-    if (sourceComp.numLayers === 0) {
-        alert("Composition kosong, gak ada isinya bos!");
-        return;
-    }
-
     var oldTime = comp.time;
-    comp.time = precompLayer.startTime;
+    var layerStart = precompLayer.startTime;
+    var layerIn = precompLayer.inPoint;
+    var layerOut = precompLayer.outPoint;
 
     sourceComp.openInViewer();
+    
+    var layerData = [];
     for (var i = 1; i <= sourceComp.numLayers; i++) {
-        sourceComp.layer(i).locked = false; 
-        sourceComp.layer(i).selected = true;
+        var L = sourceComp.layer(i);
+        layerData.push({
+            name: L.name,
+            startTime: L.startTime,
+            parentName: (L.parent !== null) ? L.parent.name : null
+        });
+        
+        L.parent = null;
+        L.locked = false;
+        L.selected = true;
     }
 
-    app.executeCommand(19); // Copy
+    app.executeCommand(app.findMenuCommandId("Copy")); 
+
     comp.openInViewer();
+    comp.time = layerStart; 
 
     for (var j = 1; j <= comp.numLayers; j++) { comp.layer(j).selected = false; }
     precompLayer.selected = true;
 
-    app.executeCommand(20); // Paste
+    app.executeCommand(app.findMenuCommandId("Paste"));
 
     var pastedLayers = comp.selectedLayers;
-    var pIn = precompLayer.inPoint, pOut = precompLayer.outPoint;
 
     for (var k = 0; k < pastedLayers.length; k++) {
         var pLayer = pastedLayers[k];
+        var data = layerData[k];
+        
+        pLayer.startTime = layerStart + data.startTime;
+
         try {
-            if (pLayer.inPoint < pIn) pLayer.inPoint = pIn;
-            if (pLayer.outPoint > pOut) pLayer.outPoint = pOut;
+            if (pLayer.inPoint < layerIn) pLayer.inPoint = layerIn;
+            if (pLayer.outPoint > layerOut) pLayer.outPoint = layerOut;
         } catch(e) {}
     }
 
-    comp.time = oldTime;
+    for (var m = 0; m < pastedLayers.length; m++) {
+        var childLayer = pastedLayers[m];
+        var pName = layerData[m].parentName;
+
+        if (pName !== null) {
+            for (var n = 0; n < pastedLayers.length; n++) {
+                if (pastedLayers[n].name === pName) {
+                    childLayer.parent = pastedLayers[n];
+                    break;
+                }
+            }
+        }
+    }
+
     precompLayer.remove();
+    comp.time = oldTime;
+    
+    app.endUndoGroup();
+}
+
+function getNextPrecompName() {
+    var baseName = "Precomp ";
+    var index = 1;
+    var nameFound = true;
+    var proj = app.project;
+
+    while (nameFound) {
+        nameFound = false;
+        var checkName = baseName + index;
+        for (var i = 1; i <= proj.numItems; i++) {
+            if (proj.item(i).name === checkName) {
+                nameFound = true;
+                index++;
+                break;
+            }
+        }
+    }
+    return baseName + index;
+}
+
+function preComposePro(moveAllStr, adjDurationStr, customName) {
+    app.beginUndoGroup("Pre-compose Pro");
+    var comp = app.project.activeItem;
+
+    if (comp == null || !(comp instanceof CompItem) || comp.selectedLayers.length === 0) {
+        alert("Pilih layer dulu yang mau di pre-comp!");
+        return;
+    }
+
+    var moveAll = (moveAllStr === "true");
+    var adjDuration = (adjDurationStr === "true");
+
+    if (!moveAll && comp.selectedLayers.length > 1) {
+        alert("Peringatan: Kalo pilih 'Leave all attributes', pilih 1 layer aja bos!");
+        return;
+    }
+
+    var layers = comp.selectedLayers;
+    var indices = [];
+    var minIn = layers[0].inPoint;
+    var maxOut = layers[0].outPoint;
+
+    for (var i = 0; i < layers.length; i++) {
+        indices.push(layers[i].index);
+        if (layers[i].inPoint < minIn) minIn = layers[i].inPoint;
+        if (layers[i].outPoint > maxOut) maxOut = layers[i].outPoint;
+    }
+
+    var compName = customName;
+    if (compName === "" || compName === null) {
+        compName = getNextPrecompName();
+    }
+
+    var newComp = comp.layers.precompose(indices, compName, moveAll);
+
+    if (moveAll && adjDuration) {
+        newComp.duration = maxOut - minIn;
+        for (var k = 1; k <= newComp.numLayers; k++) {
+            newComp.layer(k).startTime -= minIn;
+        }
+        for (var l = 1; l <= comp.numLayers; l++) {
+            if (comp.layer(l).source === newComp) {
+                comp.layer(l).startTime = minIn;
+                break;
+            }
+        }
+    }
+
     app.endUndoGroup();
 }
 

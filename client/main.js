@@ -44,6 +44,30 @@ document.getElementById('btnUnComp').addEventListener('click', function() {
 });
 document.getElementById('btnPurgeCache').addEventListener('click', function() { csInterface.evalScript('purgeCache()'); });
 
+// --- LOGIKA PRE-COMPOSE UI ---
+var radioMove = document.getElementById('radioMove');
+var adjBox = document.getElementById('adjDurationBox');
+
+document.getElementsByName('precompOpt').forEach(function(elem) {
+    elem.addEventListener('change', function() {
+        if (radioMove.checked) {
+            adjBox.style.display = 'flex';
+        } else {
+            adjBox.style.display = 'none';
+        }
+    });
+});
+
+document.getElementById('btnPreComp').addEventListener('click', function() {
+    var moveAll = radioMove.checked;
+    var adjDuration = document.getElementById('checkAdjDuration').checked;
+    var compName = document.getElementById('precompName').value;
+    
+    compName = compName.replace(/"/g, '\\"');
+    
+    csInterface.evalScript('preComposePro("' + moveAll + '", "' + adjDuration + '", "' + compName + '")');
+});
+
 // --- TAB FX ---
 document.getElementById('btnApplyMT').addEventListener('click', function() {
     var mtValue = document.getElementById('pilihMT').value;

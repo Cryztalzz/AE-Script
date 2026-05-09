@@ -59,6 +59,33 @@
             <button id="btnUnComp" class="btn-span-2 btn-uncomp">Un-Comp</button>
 
             <div class="separator"></div>
+
+            <div class="section-title">Pre-compose Tools</div>
+            <div class="precomp-container">
+                <input type="text" id="precompName" class="text-input" placeholder="Nama Pre-comp (Kosongin = Auto)">
+                
+                <div class="radio-group">
+                    <label class="radio-item">
+                        <input type="radio" name="precompOpt" value="leave" checked>
+                        <span>Leave all attributes</span>
+                    </label>
+                    <label class="radio-item">
+                        <input type="radio" id="radioMove" name="precompOpt" value="move">
+                        <span>Move all attributes</span>
+                    </label>
+                </div>
+                
+                <div id="adjDurationBox" class="switch-group sub-option">
+                    <span class="switch-label">Adjust comp duration</span>
+                    <label class="switch">
+                        <input type="checkbox" id="checkAdjDuration" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <button id="btnPreComp" class="btn-span-2 btn-precomp">Pre-compose</button>
+            </div>
+
+            <div class="separator"></div>
             <div class="section-title">Utility Gweh</div>
             <div class="button-grid">
                 <button id="btnPurgeCache" class="btn-span-2 btn-purge">Bakar Cache (Purge All)</button>

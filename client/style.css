@@ -3,7 +3,13 @@ body {
     color: #e0e0e0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     padding: 10px;
+    margin: 0;
     font-size: 12px;
+    height: 100vh;
+    box-sizing: border-box;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
 .section-title {
@@ -63,6 +69,77 @@ button:hover { background-color: #1a73e8; }
 .btn-stagger-cut { background-color: #8e44ad; margin-bottom: 10px; }
 .btn-uncomp { background-color: #2980b9; margin-top: 5px; }
 
+/* --- PRE-COMPOSE UI --- */
+.precomp-container {
+    background-color: #333;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #444;
+}
+
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.radio-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 11px;
+}
+
+.radio-item input[type="radio"] {
+    accent-color: #2d8ceb;
+    cursor: pointer;
+}
+
+.sub-option {
+    margin-left: 20px;
+    margin-top: 5px;
+    background-color: #3a3a3a !important;
+    border: 1px dashed #555 !important;
+}
+
+#adjDurationBox {
+    display: none;
+}
+
+.btn-precomp {
+    background-color: #27ae60;
+    margin-top: 5px;
+}
+
+.text-input {
+    width: 100%;
+    background-color: #2a2a2a;
+    color: white;
+    border: 1px solid #444;
+    border-radius: 3px;
+    padding: 7px;
+    font-size: 11px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.text-input:focus {
+    outline: none;
+    border-color: #2d8ceb;
+}
+
+#adjDurationBox {
+    display: none;
+}
+
+.btn-precomp {
+    background-color: #27ae60;
+    margin-top: 5px;
+}
+
 /* TABS */
 .tab-nav {
     display: flex;
@@ -70,6 +147,7 @@ button:hover { background-color: #1a73e8; }
     margin-bottom: 10px;
     border-bottom: 1px solid #3a3a3a;
     padding-bottom: 5px;
+    flex-shrink: 0;
 }
 
 .tab-btn {
@@ -90,7 +168,7 @@ button:hover { background-color: #1a73e8; }
 
 /* CONTAINER & SCROLL */
 .tab-container {
-    max-height: 400px;
+    flex: 1;
     overflow-y: overlay;
     overflow-x: hidden;
     scrollbar-gutter: stable;
@@ -132,13 +210,14 @@ input:checked + .slider { background-color: #2d8ceb; }
 input:checked + .slider:before { transform: translateX(12px); }
 
 .watermark-ui { 
-    margin-top: 25px; 
+    margin-top: 15px;
     text-align: center; 
     font-size: 10px; 
     color: #444; 
     letter-spacing: 2px; 
     font-weight: bold; 
     pointer-events: none; 
+    flex-shrink: 0;
 }
 
 /* SCROLLBAR BROWSER/AE */
