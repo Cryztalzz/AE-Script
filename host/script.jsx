@@ -1,20 +1,3 @@
-function cekDanBikinComp(rasio) {
-    var comp = app.project.activeItem;
-    
-    if (comp == null || !(comp instanceof CompItem)) {
-        var w = 1920; 
-        var h = 1080;
-        
-        if (rasio === "16:9") { w = 1920; h = 1080; }
-        else if (rasio === "4:3") { w = 1440; h = 1080; }
-        else if (rasio === "1:1") { w = 1080; h = 1080; }
-
-        comp = app.project.items.addComp("Comp " + rasio, w, h, 1, 10, 30);
-        comp.openInViewer();
-    }
-    return comp;
-}
-
 function buatCompCustom(rasio) {
     app.beginUndoGroup("Bikin Comp " + rasio);
     var w = 1920; var h = 1080;
@@ -27,126 +10,75 @@ function buatCompCustom(rasio) {
 }
 
 function buatSolidFill(rasio) {
-    app.beginUndoGroup("Solid + Fill Hitam");
-    var comp = cekDanBikinComp(rasio);
-    
-    var solid = comp.layers.addSolid([0, 0, 0], "Solid Hitam", comp.width, comp.height, 1, comp.duration);
-    var fillEffect = solid.property("ADBE Effect Parade").addProperty("ADBE Fill");
-    fillEffect.property("Color").setValue([0, 0, 0]); 
-    
+    app.beginUndoGroup("Bikin Solid");
+    var comp = app.project.activeItem;
+    if (comp == null || !(comp instanceof CompItem)) {
+        alert("Buka comp dulu!");
+    } else {
+        comp.layers.addSolid([1, 1, 1], "Solid Layer", comp.width, comp.height, 1, comp.duration);
+    }
     app.endUndoGroup();
 }
 
 function buatKamera15mm(rasio) {
-    app.beginUndoGroup("Kamera 15mm");
-    var comp = cekDanBikinComp(rasio);
-    
-    var cam = comp.layers.addCamera("Kamera 15mm", [comp.width/2, comp.height/2]);
-    var zoomHitung = (comp.width / 36) * 15;
-    cam.property("ADBE Camera Zoom").setValue(zoomHitung);
-    
+    app.beginUndoGroup("Bikin Kamera 15mm");
+    var comp = app.project.activeItem;
+    if (comp != null && comp instanceof CompItem) {
+        comp.layers.addCamera("Camera 15mm", [comp.width/2, comp.height/2]);
+    }
     app.endUndoGroup();
 }
 
 function buatNullParent() {
-    app.beginUndoGroup("Null Parent & Track");
+    app.beginUndoGroup("Bikin Null + Parent");
     var comp = app.project.activeItem;
-    
-    if (comp == null || !(comp instanceof CompItem)) {
-        alert("Buka Composition dulu buat bikin Null!");
-    } else {
-        var layerYangDipilih = comp.selectedLayers;
-        var adaTarget = layerYangDipilih.length > 0;
-        var targetLayer = null;
-        
-        if (adaTarget) {
-            targetLayer = layerYangDipilih[0];
-        }
-
+    if (comp != null && comp instanceof CompItem) {
         var nullLayer = comp.layers.addNull(comp.duration);
-        
-        if (adaTarget && targetLayer != null) {
-            nullLayer.moveBefore(targetLayer);
-            nullLayer.parent = targetLayer;
-        } 
-        else if (comp.numLayers >= 2) {
-            nullLayer.parent = comp.layer(2);
+        nullLayer.name = "Controller Null";
+        for (var i = 0; i < comp.selectedLayers.length; i++) {
+            comp.selectedLayers[i].parent = nullLayer;
         }
     }
     app.endUndoGroup();
 }
 
 function buatTeksTengah(rasio) {
-    app.beginUndoGroup("Teks Tengah");
-    var comp = cekDanBikinComp(rasio);
-    
-    var txtLayer = comp.layers.addText("ANJAY");
-    var txtRect = txtLayer.sourceRectAtTime(0, false);
-    
-    var anchorX = txtRect.left + (txtRect.width / 2);
-    var anchorY = txtRect.top + (txtRect.height / 2);
-    txtLayer.property("ADBE Transform Group").property("ADBE Anchor Point").setValue([anchorX, anchorY]);
-    txtLayer.property("ADBE Transform Group").property("ADBE Position").setValue([comp.width/2, comp.height/2]);
-    
+    app.beginUndoGroup("Bikin Teks");
+    var comp = app.project.activeItem;
+    if (comp != null && comp instanceof CompItem) {
+        var textLayer = comp.layers.addText("Teks Baru");
+        var textProp = textLayer.property("Source Text").value;
+        textProp.justification = ParagraphJustification.CENTER_JUSTIFY;
+        textLayer.property("Source Text").setValue(textProp);
+    }
     app.endUndoGroup();
 }
 
 function buatAdjComp() {
-    app.beginUndoGroup("Adj Layer (Comp)");
+    app.beginUndoGroup("Adj Comp");
     var comp = app.project.activeItem;
-    
-    if (comp == null || !(comp instanceof CompItem)) {
-        alert("Buka Composition dulu buat bikin Adjustment Layer!");
-    } else {
+    if (comp != null && comp instanceof CompItem) {
         var adjLayer = comp.layers.addSolid([1, 1, 1], "Adjustment Layer", comp.width, comp.height, 1, comp.duration);
         adjLayer.adjustmentLayer = true;
-        adjLayer.label = 5; 
     }
     app.endUndoGroup();
 }
 
 function buatAdjLayer() {
-    app.beginUndoGroup("Adj Layer (Target)");
+    app.beginUndoGroup("Adj Layer");
     var comp = app.project.activeItem;
-    
-    if (comp == null || !(comp instanceof CompItem)) {
-        alert("Buka Composition dulu buat bikin Adjustment Layer!");
-    } else {
-        var layerYangDipilih = comp.selectedLayers;
-        
-        if (layerYangDipilih.length == 0) {
-            alert("Pilih layer dulu bos buat diikutin durasinya!");
-        } else {
-            var targetLayer = layerYangDipilih[0]; 
-            
-            var adjLayer = comp.layers.addSolid([1, 1, 1], "Adjustment (Target)", comp.width, comp.height, 1, comp.duration);
-            adjLayer.adjustmentLayer = true;
-            adjLayer.label = 5;
-            adjLayer.moveBefore(targetLayer);
-            adjLayer.startTime = targetLayer.startTime;
-            adjLayer.inPoint = targetLayer.inPoint;
-            adjLayer.outPoint = targetLayer.outPoint;
+    if (comp != null && comp instanceof CompItem) {
+        if (comp.selectedLayers.length === 0) {
+            alert("Pilih layer dulu bos!");
+            return;
         }
-    }
-    app.endUndoGroup();
-}
-
-function applyPreset(extPath, namaFilePreset) {
-    app.beginUndoGroup("Apply Preset " + namaFilePreset);
-    var comp = app.project.activeItem;
-    
-    if (comp == null || !(comp instanceof CompItem) || comp.selectedLayers.length == 0) {
-        alert("Pilih layer dulu buat dikasih preset!");
-    } else {
-        var presetFile = new File(extPath + "/effects/" + namaFilePreset);
-        
-        if (!presetFile.exists) {
-            alert("File preset nggak ketemu di: " + decodeURI(presetFile.fsName));
-        } else {
-            for (var i = 0; i < comp.selectedLayers.length; i++) {
-                comp.selectedLayers[i].applyPreset(presetFile);
-            }
-        }
+        var target = comp.selectedLayers[0];
+        var adjLayer = comp.layers.addSolid([1, 1, 1], "Adj Target", comp.width, comp.height, 1, comp.duration);
+        adjLayer.adjustmentLayer = true;
+        adjLayer.moveBefore(target);
+        adjLayer.startTime = target.startTime;
+        adjLayer.inPoint = target.inPoint;
+        adjLayer.outPoint = target.outPoint;
     }
     app.endUndoGroup();
 }
@@ -154,125 +86,129 @@ function applyPreset(extPath, namaFilePreset) {
 function autoOrganizeProject() {
     app.beginUndoGroup("Auto Organize Project");
     var proj = app.project;
-    
     function ambilAtauBikinFolder(namaFolder) {
         for (var i = 1; i <= proj.numItems; i++) {
-            if (proj.item(i) instanceof FolderItem && proj.item(i).name === namaFolder) {
-                return proj.item(i);
-            }
+            if (proj.item(i) instanceof FolderItem && proj.item(i).name === namaFolder) return proj.item(i);
         }
         return proj.items.addFolder(namaFolder);
     }
 
     var rootFolder = proj.rootFolder;
     var daftarFile = [];
-    
     for (var i = 1; i <= proj.numItems; i++) {
         var item = proj.item(i);
-        
-        if (item.parentFolder !== rootFolder || item instanceof FolderItem) {
-            continue;
-        }
-        
-        if (item instanceof FootageItem && item.mainSource instanceof SolidSource) {
-            continue;
-        }
-        
+        if (item.parentFolder !== rootFolder || item instanceof FolderItem) continue;
+        if (item instanceof FootageItem && item.mainSource instanceof SolidSource) continue;
         daftarFile.push(item);
     }
 
-    var folderComps = null;
-    var folderAssets = null;
-    var folderAudio = null;
+    var folderComps = null, folderAssets = null, folderAudio = null;
 
     for (var j = 0; j < daftarFile.length; j++) {
         var item = daftarFile[j];
-        
         if (item instanceof CompItem) {
             if (!folderComps) folderComps = ambilAtauBikinFolder("01_COMPS");
             item.parentFolder = folderComps;
-            
         } else if (item instanceof FootageItem) {
             if (item.hasAudio && !item.hasVideo) {
                 if (!folderAudio) folderAudio = ambilAtauBikinFolder("03_AUDIO");
                 item.parentFolder = folderAudio;
-                
             } else {
                 if (!folderAssets) folderAssets = ambilAtauBikinFolder("02_ASSETS");
                 item.parentFolder = folderAssets;
             }
         }
     }
-    
+    app.endUndoGroup();
+}
+
+function unPrecompose() {
+    app.beginUndoGroup("Un-Precompose Pro");
+    var comp = app.project.activeItem;
+    if (comp == null || !(comp instanceof CompItem) || comp.selectedLayers.length !== 1) {
+        alert("Cuma bisa pilih 1 layer Composition!");
+        return;
+    }
+
+    var precompLayer = comp.selectedLayers[0];
+    if (!(precompLayer.source instanceof CompItem)) {
+        alert("Ini bukan layer Composition!");
+        return;
+    }
+
+    var sourceComp = precompLayer.source;
+    if (sourceComp.numLayers === 0) {
+        alert("Composition kosong, gak ada isinya bos!");
+        return;
+    }
+
+    var oldTime = comp.time;
+    comp.time = precompLayer.startTime;
+
+    sourceComp.openInViewer();
+    for (var i = 1; i <= sourceComp.numLayers; i++) {
+        sourceComp.layer(i).locked = false; 
+        sourceComp.layer(i).selected = true;
+    }
+
+    app.executeCommand(19); // Copy
+    comp.openInViewer();
+
+    for (var j = 1; j <= comp.numLayers; j++) { comp.layer(j).selected = false; }
+    precompLayer.selected = true;
+
+    app.executeCommand(20); // Paste
+
+    var pastedLayers = comp.selectedLayers;
+    var pIn = precompLayer.inPoint, pOut = precompLayer.outPoint;
+
+    for (var k = 0; k < pastedLayers.length; k++) {
+        var pLayer = pastedLayers[k];
+        try {
+            if (pLayer.inPoint < pIn) pLayer.inPoint = pIn;
+            if (pLayer.outPoint > pOut) pLayer.outPoint = pOut;
+        } catch(e) {}
+    }
+
+    comp.time = oldTime;
+    precompLayer.remove();
     app.endUndoGroup();
 }
 
 function staggerLayers(val, doTrim) {
     app.beginUndoGroup("Stagger Layers");
     var comp = app.project.activeItem;
-
     if (comp == null || !(comp instanceof CompItem) || comp.selectedLayers.length < 2) {
-        alert("Pilih minimal 2 layer di timeline bos!");
+        alert("Pilih minimal 2 layer!");
     } else {
-        var layers = comp.selectedLayers;
-        var frameDur = comp.frameDuration;
-        
+        var layers = comp.selectedLayers, frameDur = comp.frameDuration;
         for (var i = 1; i < layers.length; i++) {
-            var prevLayer = layers[i - 1];
-            var currLayer = layers[i];
-            
+            var prevLayer = layers[i - 1], currLayer = layers[i];
             var offsetToInPoint = currLayer.inPoint - currLayer.startTime;
-            var targetInPoint;
-
-            if (val === "end") {
-                targetInPoint = prevLayer.outPoint;
-            } else {
-                var framesToShift = parseInt(val);
-                var timeToShift = framesToShift * frameDur;
-                targetInPoint = prevLayer.inPoint + timeToShift;
-            }
-
+            var targetInPoint = (val === "end") ? prevLayer.outPoint : prevLayer.inPoint + (parseInt(val) * frameDur);
             currLayer.startTime = targetInPoint - offsetToInPoint;
-
-            if (doTrim === true || doTrim === "true") {
-                prevLayer.outPoint = currLayer.inPoint;
-            }
+            if (doTrim === true || doTrim === "true") prevLayer.outPoint = currLayer.inPoint;
         }
-
         if ((doTrim === true || doTrim === "true") && val !== "end") {
             var lastLayer = layers[layers.length - 1];
-            var framesToShift = parseInt(val);
-            var timeToShift = framesToShift * frameDur;
-            lastLayer.outPoint = lastLayer.inPoint + timeToShift;
+            lastLayer.outPoint = lastLayer.inPoint + (parseInt(val) * frameDur);
         }
     }
     app.endUndoGroup();
 }
 
 function applyNativeMotionTile(mtValue, isMirror) {
-    app.beginUndoGroup("Apply Motion Tile Generator");
+    app.beginUndoGroup("Apply Motion Tile");
     var comp = app.project.activeItem;
-
-    if (comp == null || !(comp instanceof CompItem) || comp.selectedLayers.length === 0) {
-        alert("Pilih minimal 1 layer dulu bos buat dikasih Motion Tile!");
-    } else {
-        for (var i = 0; i < comp.selectedLayers.length; i++) {
-            var layer = comp.selectedLayers[i];
-            
-            var mtEffect = layer.property("Effects").addProperty("ADBE Tile");
-            
-            mtEffect.property("Output Width").setValue(parseInt(mtValue));
-            mtEffect.property("Output Height").setValue(parseInt(mtValue));
-            
-            var mirrorVal = (isMirror === true || isMirror === "true") ? 1 : 0;
-            mtEffect.property("Mirror Edges").setValue(mirrorVal);
-        }
+    if (comp == null || comp.selectedLayers.length === 0) return;
+    for (var i = 0; i < comp.selectedLayers.length; i++) {
+        var layer = comp.selectedLayers[i];
+        var mtEffect = layer.property("Effects").addProperty("ADBE Tile");
+        mtEffect.property("Output Width").setValue(parseInt(mtValue));
+        mtEffect.property("Output Height").setValue(parseInt(mtValue));
+        mtEffect.property("Mirror Edges").setValue((isMirror === true || isMirror === "true") ? 1 : 0);
     }
     app.endUndoGroup();
 }
 
-function purgeCache() {
-    app.purge(PurgeTarget.ALL_CACHES);
-    
-    alert("Memory & Disk Cache Purged!");
-}
+function purgeCache() { app.purge(PurgeTarget.ALL_CACHES); alert("Memory & Disk Cache Bersih!"); }

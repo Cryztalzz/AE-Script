@@ -51,55 +51,19 @@ button {
     width: 100%;
     font-size: 11px;
     font-weight: bold;
-    transition: background-color 0.2s;
-}
-
-.btn-span-2 {
-    grid-column: span 2;
-}
-
-#btnAutoOrganize {
-    background-color: #27ae60;
-}
-
-#btnPurgeCache {
-    background-color: #d35400;
-}
-
-#btnAutoOrganize:hover, #btnPurgeCache:hover {
-    filter: brightness(1.1);
+    transition: 0.2s;
 }
 
 button:hover { background-color: #1a73e8; }
 
-.watermark-ui {
-    margin-top: 25px;
-    text-align: center;
-    font-size: 10px;
-    color: #444;
-    letter-spacing: 2px;
-    font-weight: bold;
-    user-select: none;
-    pointer-events: none;
-}
+.btn-span-2 { grid-column: span 2; }
 
-::-webkit-scrollbar {
-    width: 6px;
-}
+#btnAutoOrganize { background-color: #27ae60; }
+.btn-purge { background-color: #d35400; }
+.btn-stagger-cut { background-color: #8e44ad; margin-bottom: 10px; }
+.btn-uncomp { background-color: #2980b9; margin-top: 5px; }
 
-::-webkit-scrollbar-track {
-    background: #232323;
-}
-
-::-webkit-scrollbar-thumb {
-    background: #4a4a4a;
-    border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: #666666;
-}
-
+/* TABS */
 .tab-nav {
     display: flex;
     gap: 2px;
@@ -114,9 +78,7 @@ button:hover { background-color: #1a73e8; }
     border: none;
     padding: 6px 2px;
     font-size: 10px;
-    cursor: pointer;
     flex: 1;
-    transition: 0.2s;
 }
 
 .tab-btn.active {
@@ -125,29 +87,20 @@ button:hover { background-color: #1a73e8; }
     border-bottom: 2px solid #2d8ceb;
 }
 
-.tab-btn:hover {
-    color: white;
-}
-
+/* CONTAINER & SCROLL */
 .tab-container {
     max-height: 400px;
-    
     overflow-y: overlay;
     overflow-x: hidden;
     scrollbar-gutter: stable;
-    
     padding-right: 5px;
     padding-bottom: 10px;
 }
+
+/* ANIMASI FADE */
 @keyframes fadeInSlide {
-    from { 
-        opacity: 0; 
-        transform: translateY(5px);
-    }
-    to { 
-        opacity: 1; 
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .tab-content {
@@ -155,11 +108,9 @@ button:hover { background-color: #1a73e8; }
     animation: fadeInSlide 0.3s ease-out;
 }
 
-.tab-content.active {
-    display: block;
-}
+.tab-content.active { display: block; }
 
-/* --- TOGGLE SWITCH (MIRROR EDGES) --- */
+/* TOGGLE SWITCH */
 .switch-group {
     display: flex;
     justify-content: space-between;
@@ -171,49 +122,12 @@ button:hover { background-color: #1a73e8; }
     border: 1px solid #444;
 }
 
-.switch-label {
-    font-size: 11px;
-    color: #e0e0e0;
-}
+.switch-label { font-size: 11px; color: #e0e0e0; }
+.switch { position: relative; display: inline-block; width: 28px; height: 16px; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #555; transition: .2s; border-radius: 16px; }
+.slider:before { position: absolute; content: ""; height: 12px; width: 12px; left: 2px; bottom: 2px; background-color: white; transition: .2s; border-radius: 50%; }
+input:checked + .slider { background-color: #2d8ceb; }
+input:checked + .slider:before { transform: translateX(12px); }
 
-.switch {
-    position: relative;
-    display: inline-block;
-    width: 28px;
-    height: 16px;
-}
-
-.switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-
-.slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background-color: #555;
-    transition: .2s;
-    border-radius: 16px;
-}
-
-.slider:before {
-    position: absolute;
-    content: "";
-    height: 12px;
-    width: 12px;
-    left: 2px;
-    bottom: 2px;
-    background-color: white;
-    transition: .2s;
-    border-radius: 50%;
-}
-
-input:checked + .slider {
-    background-color: #2d8ceb;
-}
-
-input:checked + .slider:before {
-    transform: translateX(12px);
-}
+.watermark-ui { margin-top: 25px; text-align: center; font-size: 10px; color: #444; letter-spacing: 2px; font-weight: bold; pointer-events: none; }
