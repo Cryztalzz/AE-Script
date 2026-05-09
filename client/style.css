@@ -99,3 +99,46 @@ button:hover { background-color: #1a73e8; }
 ::-webkit-scrollbar-thumb:hover {
     background: #666666;
 }
+
+.tab-nav {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #3a3a3a;
+    padding-bottom: 5px;
+}
+
+.tab-btn {
+    background-color: #333;
+    color: #888;
+    border: none;
+    padding: 6px 2px;
+    font-size: 10px;
+    cursor: pointer;
+    flex: 1;
+    transition: 0.2s;
+}
+
+.tab-btn.active {
+    background-color: #444;
+    color: #2d8ceb;
+    border-bottom: 2px solid #2d8ceb;
+}
+
+.tab-btn:hover {
+    color: white;
+}
+
+.tab-container {
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}

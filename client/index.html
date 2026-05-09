@@ -7,85 +7,87 @@
     <script src="./CSInterface.js"></script>
 </head>
 <body>
-    <div class="section-title">Essentials</div>
-    
-    <div class="dropdown-group">
-        <select id="pilihComp">
-            <option value="16:9">16:9 (1920x1080)</option>
-            <option value="4:3">4:3 (1440x1080)</option>
-            <option value="1:1">1:1 (1080x1080)</option>
-        </select>
-        <button id="btnBikinCompOtomatis">Bikin Comp</button>
+    <div class="tab-nav">
+        <button class="tab-btn active" onclick="openTab(event, 'essentials')">Main</button>
+        <button class="tab-btn" onclick="openTab(event, 'manager')">Project</button>
+        <button class="tab-btn" onclick="openTab(event, 'timeline')">Time</button>
+        <button class="tab-btn" onclick="openTab(event, 'presets')">FX</button>
     </div>
 
-    <div class="button-grid">
-        <button id="btnSolidFill">Solid</button>
-        <button id="btnCam15">Camera 15mm</button>
-        <button id="btnNullParent">Null + Parent</button>
-        <button id="btnTeksTengah">Text</button>
-        <button id="btnAdjComp">Adjustment (Comp)</button>
-        <button id="btnAdjLayer">Adjustment (Layer)</button>
+    <div class="tab-container">
+        
+        <div id="essentials" class="tab-content active">
+            <div class="section-title">Essentials</div>
+            <div class="dropdown-group">
+                <select id="pilihComp">
+                    <option value="16:9">16:9 (1920x1080)</option>
+                    <option value="4:3">4:3 (1440x1080)</option>
+                    <option value="1:1">1:1 (1080x1080)</option>
+                </select>
+                <button id="btnBikinCompOtomatis">Bikin Comp</button>
+            </div>
+            <div class="button-grid">
+                <button id="btnSolidFill">Solid</button>
+                <button id="btnCam15">Camera</button>
+                <button id="btnNullParent">Null Parent</button>
+                <button id="btnTeksTengah">Text</button>
+                <button id="btnAdjComp">Adj (Comp)</button>
+                <button id="btnAdjLayer">Adj (Layer)</button>
+            </div>
+        </div>
+
+        <div id="manager" class="tab-content">
+            <div class="section-title">Project Manager</div>
+            <div class="button-grid">
+                <button id="btnAutoOrganize" class="btn-span-2">Auto Organize Project</button>
+            </div>
+        </div>
+
+        <div id="timeline" class="tab-content">
+            <div class="section-title">Timeline Tools</div>
+            <div class="dropdown-group">
+                <select id="pilihStagger">
+                    <option value="1">1 Frame</option>
+                    <option value="5">5 Frame</option>
+                    <option value="10">10 Frame</option>
+                    <option value="end">End of Clip</option>
+                </select>
+                <button id="btnStagger">Stagger Layer</button>
+            </div>
+            <div class="separator"></div>
+            <div class="section-title">Utility Gweh</div>
+            <div class="button-grid">
+                <button id="btnPurgeCache" class="btn-span-2">Bakar Cache (Purge All)</button>
+            </div>
+        </div>
+
+        <div id="presets" class="tab-content">
+            <div class="section-title">Preset Gweh</div>
+            <div class="dropdown-group">
+                <select id="pilihGlitch">
+                    <option value="Glitch1.ffx">Glitch 1</option>
+                    <option value="Glitch2.ffx">Glitch 2</option>
+                    <option value="Glitch3.ffx">Glitch 3</option>
+                </select>
+                <button id="btnApplyGlitch">Apply Glitch</button>
+            </div>
+            <div class="dropdown-group">
+                <select id="pilihMT">
+                    <option value="tile300.ffx">MT 300</option>
+                    <option value="tile500.ffx">MT 500</option>
+                </select>
+                <button id="btnApplyMT">Apply MT</button>
+            </div>
+            <div class="button-grid">
+                <button id="btnTeksAnimasi">Teks Anim</button>
+                <button id="btnRadiant">Radiant</button>
+                <button id="btnTwitch" class="btn-span-2">Twitch</button>
+            </div>
+        </div>
+
     </div>
 
-    <div class="separator"></div>
-
-    <div class="section-title">Project Manager</div>
-    <div class="button-grid">
-        <button id="btnAutoOrganize" class="btn-span-2">Auto Organize Project</button>
-    </div>
-
-    <div class="separator"></div>
-
-    <div class="section-title">Timeline Tools</div>
-    <div class="dropdown-group">
-        <select id="pilihStagger">
-            <option value="1">1 Frame</option>
-            <option value="5">5 Frame</option>
-            <option value="10">10 Frame</option>
-            <option value="end">End of Clip</option>
-        </select>
-        <button id="btnStagger">Stagger Layer</button>
-    </div>
-
-    <div class="separator"></div>
-
-    <div class="section-title">Preset Gweh</div>
-    
-    <div class="dropdown-group">
-        <select id="pilihGlitch">
-            <option value="Glitch1.ffx">1 Frame Glitch 1</option>
-            <option value="Glitch2.ffx">1 Frame Glitch 2</option>
-            <option value="Glitch3.ffx">1 Frame Glitch 3</option>
-        </select>
-        <button id="btnApplyGlitch">Apply Glitch</button>
-    </div>
-
-    <div class="dropdown-group">
-        <select id="pilihMT">
-            <option value="tile300.ffx">Motion Tile 300</option>
-            <option value="tile500.ffx">Motion Tile 500</option>
-        </select>
-        <button id="btnApplyMT">Apply Motile</button>
-    </div>
-
-    <div class="button-grid">
-        <button id="btnTeksAnimasi">Teks Animasi</button>
-        <button id="btnRadiant">Radiant Ramp</button>
-        <button id="btnTwitch" class="btn-span-2">Twitch Preset</button>
-    </div>
-
-    <div class="separator"></div>
-
-    <div class="section-title">Utility Gweh</div>
-    <div class="button-grid">
-        <button id="btnPurgeCache" class="btn-span-2">Bakar Cache (Purge All)</button>
-    </div>
-
-    <div class="separator"></div>
-
-    <div class="watermark-ui">
-        Alztod Shortcuts v1.0
-    </div>
+    <div class="watermark-ui">Alztod Shortcuts v1.2</div>
     
     <script src="./main.js"></script>
 
