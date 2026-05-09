@@ -26,6 +26,15 @@
                 </select>
                 <button id="btnBikinCompOtomatis">Bikin Comp</button>
             </div>
+
+            <div class="switch-group">
+                <span class="switch-label">Solid + Fill Effect (Black)</span>
+                <label class="switch">
+                    <input type="checkbox" id="checkFillEffect">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
             <div class="button-grid">
                 <button id="btnSolidFill">Solid</button>
                 <button id="btnCam15">Camera 15mm</button>
@@ -113,7 +122,35 @@
 
             <div class="separator"></div>
 
+            <div class="section-title">1-Click Watermark</div>
+            <div class="wm-container">
+                <input type="text" id="wmText" class="text-input" placeholder="Isi Nama WM Lu...">
+                
+                <div class="pos-selector">
+                    <div class="pos-grid">
+                        <div class="pos-btn" data-pos="TL">↖</div>
+                        <div class="pos-btn" data-pos="TC">↑</div>
+                        <div class="pos-btn" data-pos="TR">↗</div>
+                        <div class="pos-btn" data-pos="ML">←</div>
+                        <div class="pos-btn active" data-pos="MC">·</div>
+                        <div class="pos-btn" data-pos="MR">→</div>
+                        <div class="pos-btn" data-pos="BL">↙</div>
+                        <div class="pos-btn" data-pos="BC">↓</div>
+                        <div class="pos-btn" data-pos="BR">↘</div>
+                    </div>
+                </div>
+
+                <div class="slider-group">
+                    <div class="slider-header">
+                        <span>Scale</span>
+                        <span id="wmScaleVal">100%</span>
+                    </div>
+                    <input type="range" id="wmScale" min="10" max="300" value="100" class="range-input">
+                </div>
+
+                <button id="btnGenerateWM" class="btn-span-2 btn-wm">Update / Generate WM</button>
             </div>
+        </div>
 
     </div>
 
