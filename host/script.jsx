@@ -203,7 +203,7 @@ function autoOrganizeProject() {
     app.endUndoGroup();
 }
 
-function staggerLayers(val) {
+function staggerLayers(val, doTrim) {
     app.beginUndoGroup("Stagger Layers");
     var comp = app.project.activeItem;
 
@@ -229,6 +229,17 @@ function staggerLayers(val) {
             }
 
             currLayer.startTime = targetInPoint - offsetToInPoint;
+
+            if (doTrim === true || doTrim === "true") {
+                prevLayer.outPoint = currLayer.inPoint;
+            }
+        }
+
+        if ((doTrim === true || doTrim === "true") && val !== "end") {
+            var lastLayer = layers[layers.length - 1];
+            var framesToShift = parseInt(val);
+            var timeToShift = framesToShift * frameDur;
+            lastLayer.outPoint = lastLayer.inPoint + timeToShift;
         }
     }
     app.endUndoGroup();
