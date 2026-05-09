@@ -249,6 +249,28 @@ function staggerLayers(val, doTrim) {
     app.endUndoGroup();
 }
 
+function applyNativeMotionTile(mtValue, isMirror) {
+    app.beginUndoGroup("Apply Motion Tile Generator");
+    var comp = app.project.activeItem;
+
+    if (comp == null || !(comp instanceof CompItem) || comp.selectedLayers.length === 0) {
+        alert("Pilih minimal 1 layer dulu bos buat dikasih Motion Tile!");
+    } else {
+        for (var i = 0; i < comp.selectedLayers.length; i++) {
+            var layer = comp.selectedLayers[i];
+            
+            var mtEffect = layer.property("Effects").addProperty("ADBE Tile");
+            
+            mtEffect.property("Output Width").setValue(parseInt(mtValue));
+            mtEffect.property("Output Height").setValue(parseInt(mtValue));
+            
+            var mirrorVal = (isMirror === true || isMirror === "true") ? 1 : 0;
+            mtEffect.property("Mirror Edges").setValue(mirrorVal);
+        }
+    }
+    app.endUndoGroup();
+}
+
 function purgeCache() {
     app.purge(PurgeTarget.ALL_CACHES);
     

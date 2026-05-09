@@ -65,6 +65,26 @@
         </div>
 
         <div id="presets" class="tab-content">
+            <div class="section-title">Motion Tile Generator</div>
+            <div class="dropdown-group">
+                <select id="pilihMT">
+                    <option value="150">Scale 150</option>
+                    <option value="300">Scale 300</option>
+                    <option value="500">Scale 500</option>
+                </select>
+                <button id="btnApplyMT">Apply MT</button>
+            </div>
+            
+            <div class="switch-group">
+                <span class="switch-label">Mirror Edges</span>
+                <label class="switch">
+                    <input type="checkbox" id="checkMirror" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="separator"></div>
+
             <div class="section-title">Preset Gweh</div>
             <div class="dropdown-group">
                 <select id="pilihGlitch">
@@ -74,16 +94,9 @@
                 </select>
                 <button id="btnApplyGlitch">Apply Glitch</button>
             </div>
-            <div class="dropdown-group">
-                <select id="pilihMT">
-                    <option value="tile300.ffx">MT 300</option>
-                    <option value="tile500.ffx">MT 500</option>
-                </select>
-                <button id="btnApplyMT">Apply Motion Tile</button>
-            </div>
             <div class="button-grid">
-                <button id="btnTeksAnimasi">Text Animation</button>
-                <button id="btnRadiant">Radiant Ramp</button>
+                <button id="btnTeksAnimasi">Teks Anim</button>
+                <button id="btnRadiant">Radiant</button>
                 <button id="btnTwitch" class="btn-span-2">Twitch</button>
             </div>
         </div>

@@ -79,8 +79,10 @@ document.getElementById('btnApplyGlitch').addEventListener('click', function() {
     csInterface.evalScript('applyPreset("' + extPath + '", "' + namaPreset + '")');
 });
 document.getElementById('btnApplyMT').addEventListener('click', function() {
-    var namaPreset = document.getElementById('pilihMT').value;
-    csInterface.evalScript('applyPreset("' + extPath + '", "' + namaPreset + '")');
+    var mtValue = document.getElementById('pilihMT').value;
+    var isMirror = document.getElementById('checkMirror').checked;
+    
+    csInterface.evalScript('applyNativeMotionTile(' + mtValue + ', ' + isMirror + ')');
 });
 document.getElementById('btnTeksAnimasi').addEventListener('click', function() { 
     csInterface.evalScript('applyPreset("' + extPath + '", "texticatk.ffx")'); 
