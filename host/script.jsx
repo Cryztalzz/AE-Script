@@ -151,6 +151,58 @@ function applyPreset(extPath, namaFilePreset) {
     app.endUndoGroup();
 }
 
+function autoOrganizeProject() {
+    app.beginUndoGroup("Auto Organize Project");
+    var proj = app.project;
+    
+    function ambilAtauBikinFolder(namaFolder) {
+        for (var i = 1; i <= proj.numItems; i++) {
+            if (proj.item(i) instanceof FolderItem && proj.item(i).name === namaFolder) {
+                return proj.item(i);
+            }
+        }
+        return proj.items.addFolder(namaFolder);
+    }
+
+    var folderComps = ambilAtauBikinFolder("01_COMPS");
+    var folderAssets = ambilAtauBikinFolder("02_ASSETS");
+    var folderAudio = ambilAtauBikinFolder("04_AUDIO");
+
+    var rootFolder = proj.rootFolder;
+    
+    var daftarFile = [];
+    
+    for (var i = 1; i <= proj.numItems; i++) {
+        var item = proj.item(i);
+        
+        if (item.parentFolder !== rootFolder || item instanceof FolderItem) {
+            continue;
+        }
+        
+        if (item instanceof FootageItem && item.mainSource instanceof SolidSource) {
+            continue;
+        }
+        
+        daftarFile.push(item);
+    }
+
+    for (var j = 0; j < daftarFile.length; j++) {
+        var item = daftarFile[j];
+        
+        if (item instanceof CompItem) {
+            item.parentFolder = folderComps;
+        } else if (item instanceof FootageItem) {
+            if (item.hasAudio && !item.hasVideo) {
+                item.parentFolder = folderAudio;
+            } else {
+                item.parentFolder = folderAssets;
+            }
+        }
+    }
+    
+    app.endUndoGroup();
+}
+
 function purgeCache() {
     app.purge(PurgeTarget.ALL_CACHES);
     

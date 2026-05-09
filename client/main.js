@@ -32,6 +32,10 @@ document.getElementById('btnAdjLayer').addEventListener('click', function() {
     csInterface.evalScript('buatAdjLayer()');
 });
 
+document.getElementById('btnAutoOrganize').addEventListener('click', function() {
+    csInterface.evalScript('autoOrganizeProject()');
+});
+
 var extPath = csInterface.getSystemPath(SystemPath.EXTENSION);
 
 document.getElementById('btnApplyGlitch').addEventListener('click', function() {

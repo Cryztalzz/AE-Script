@@ -54,6 +54,22 @@ button {
     transition: background-color 0.2s;
 }
 
+.btn-span-2 {
+    grid-column: span 2;
+}
+
+#btnAutoOrganize {
+    background-color: #27ae60;
+}
+
+#btnPurgeCache {
+    background-color: #d35400;
+}
+
+#btnAutoOrganize:hover, #btnPurgeCache:hover {
+    filter: brightness(1.1);
+}
+
 button:hover { background-color: #1a73e8; }
 
 .watermark-ui {
