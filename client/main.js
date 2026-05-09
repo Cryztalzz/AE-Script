@@ -63,3 +63,8 @@ document.getElementById('btnTwitch').addEventListener('click', function() {
 document.getElementById('btnPurgeCache').addEventListener('click', function() { 
     csInterface.evalScript('purgeCache()'); 
 });
+
+document.getElementById('btnStagger').addEventListener('click', function() {
+    var staggerValue = document.getElementById('pilihStagger').value;
+    csInterface.evalScript('staggerLayers("' + staggerValue + '")');
+});

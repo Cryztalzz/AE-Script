@@ -203,6 +203,37 @@ function autoOrganizeProject() {
     app.endUndoGroup();
 }
 
+function staggerLayers(val) {
+    app.beginUndoGroup("Stagger Layers");
+    var comp = app.project.activeItem;
+
+    if (comp == null || !(comp instanceof CompItem) || comp.selectedLayers.length < 2) {
+        alert("Pilih minimal 2 layer di timeline bos!");
+    } else {
+        var layers = comp.selectedLayers;
+        var frameDur = comp.frameDuration;
+        
+        for (var i = 1; i < layers.length; i++) {
+            var prevLayer = layers[i - 1];
+            var currLayer = layers[i];
+            
+            var offsetToInPoint = currLayer.inPoint - currLayer.startTime;
+            var targetInPoint;
+
+            if (val === "end") {
+                targetInPoint = prevLayer.outPoint;
+            } else {
+                var framesToShift = parseInt(val);
+                var timeToShift = framesToShift * frameDur;
+                targetInPoint = prevLayer.inPoint + timeToShift;
+            }
+
+            currLayer.startTime = targetInPoint - offsetToInPoint;
+        }
+    }
+    app.endUndoGroup();
+}
+
 function purgeCache() {
     app.purge(PurgeTarget.ALL_CACHES);
     
