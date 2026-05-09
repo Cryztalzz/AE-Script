@@ -55,3 +55,7 @@ document.getElementById('btnRadiant').addEventListener('click', function() {
 document.getElementById('btnTwitch').addEventListener('click', function() { 
     csInterface.evalScript('applyPreset("' + extPath + '", "twitchvar.ffx")'); 
 });
+
+document.getElementById('btnPurgeCache').addEventListener('click', function() { 
+    csInterface.evalScript('purgeCache()'); 
+});

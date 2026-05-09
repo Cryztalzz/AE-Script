@@ -150,3 +150,9 @@ function applyPreset(extPath, namaFilePreset) {
     }
     app.endUndoGroup();
 }
+
+function purgeCache() {
+    app.purge(PurgeTarget.ALL_CACHES);
+    
+    alert("Memory & Disk Cache Purged!");
+}
