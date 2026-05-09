@@ -164,12 +164,7 @@ function autoOrganizeProject() {
         return proj.items.addFolder(namaFolder);
     }
 
-    var folderComps = ambilAtauBikinFolder("01_COMPS");
-    var folderAssets = ambilAtauBikinFolder("02_ASSETS");
-    var folderAudio = ambilAtauBikinFolder("04_AUDIO");
-
     var rootFolder = proj.rootFolder;
-    
     var daftarFile = [];
     
     for (var i = 1; i <= proj.numItems; i++) {
@@ -186,15 +181,24 @@ function autoOrganizeProject() {
         daftarFile.push(item);
     }
 
+    var folderComps = null;
+    var folderAssets = null;
+    var folderAudio = null;
+
     for (var j = 0; j < daftarFile.length; j++) {
         var item = daftarFile[j];
         
         if (item instanceof CompItem) {
+            if (!folderComps) folderComps = ambilAtauBikinFolder("01_COMPS");
             item.parentFolder = folderComps;
+            
         } else if (item instanceof FootageItem) {
             if (item.hasAudio && !item.hasVideo) {
+                if (!folderAudio) folderAudio = ambilAtauBikinFolder("03_AUDIO");
                 item.parentFolder = folderAudio;
+                
             } else {
+                if (!folderAssets) folderAssets = ambilAtauBikinFolder("02_ASSETS");
                 item.parentFolder = folderAssets;
             }
         }

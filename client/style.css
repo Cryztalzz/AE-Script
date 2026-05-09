@@ -131,12 +131,28 @@ button:hover { background-color: #1a73e8; }
 
 .tab-container {
     max-height: 400px;
-    overflow-y: auto;
+    
+    overflow-y: overlay;
+    overflow-x: hidden;
+    scrollbar-gutter: stable;
+    
     padding-right: 5px;
+    padding-bottom: 10px;
+}
+@keyframes fadeInSlide {
+    from { 
+        opacity: 0; 
+        transform: translateY(5px);
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0);
+    }
 }
 
 .tab-content {
     display: none;
+    animation: fadeInSlide 0.3s ease-out;
 }
 
 .tab-content.active {
