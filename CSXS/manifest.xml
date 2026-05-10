@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ExtensionManifest Version="7.0" 
     ExtensionBundleId="com.alztod.essentials" 
-    ExtensionBundleVersion="1.3.0" 
+    ExtensionBundleVersion="1.4.0" 
     ExtensionBundleName="AT-Essentials" 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
     <ExtensionList>
-        <Extension Id="com.alztod.essentials" Version="1.3.0" />
+        <Extension Id="com.alztod.essentials" Version="1.4.0" />
     </ExtensionList>
 
     <ExecutionEnvironment>

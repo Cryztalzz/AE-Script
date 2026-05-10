@@ -1,4 +1,4 @@
-# 🎬 AT-Essentials v1.3.0
+# 🎬 AT-Essentials v1.4.0
 
 **AT-Essentials** is a minimal, all-in-one Adobe After Effects Extension (CEP) designed to supercharge your editing workflow. No more menu diving—all essential tools are packed into one clean, dockable panel.
 
@@ -45,7 +45,7 @@
 ---
 ---
 
-# 🎬 AT-Essentials v1.3.0 (Indonesia)
+# 🎬 AT-Essentials v1.4.0 (Indonesia)
 
 **AT-Essentials** adalah Adobe After Effects Extension (CEP) yang dirancang buat nge-boost workflow editing lu biar makin sat-set. Gak perlu ribet buka menu satu-satu, semua tools penting udah dikumpulin jadi satu panel minimalis.
 
