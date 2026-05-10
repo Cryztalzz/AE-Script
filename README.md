@@ -12,7 +12,7 @@
 ### 🚀 1. Essentials (Main)
 * **Quick Comp:** Instantly create a Composition with 16:9, 4:3, or 1:1 presets. Auto-applies optimal Motion Blur settings (64 samples).
 * **Smart Solid:** Generate a Black Solid with an optional *Fill* effect in one click.
-* **Camera 15mm:** Spawn a 15mm camera with automatic zoom calculation.
+* **Camera:** Open camera settings.
 * **Null + Parent:** Create a Null Object and automatically parent selected layers.
 * **Fast Elements:** Instant buttons for Center Text, Adjustment Layer, and Adjustment Comp.
 
@@ -59,7 +59,7 @@
 ### 🚀 1. Essentials (Main)
 * **Quick Comp:** Bikin Composition instan dengan preset rasio 16:9, 4:3, atau 1:1. Otomatis setting Motion Blur (64 samples).
 * **Smart Solid:** Bikin Black Solid sekaligus nambahin efek *Fill* cuma sekali klik.
-* **Camera 15mm:** Spawn kamera 15mm dengan kalkulasi zoom otomatis.
+* **Camera:** Langsung buka kamera setting biar bisa langsung create kamera.
 * **Null + Parent:** Bikin Null Object dan otomatis nge-parent semua layer yang lagi lu pilih.
 * **Fast Elements:** Tombol instan buat bikin Text (Center), Adjustment Layer, dan Adjustment Comp.
 
