@@ -1,6 +1,56 @@
-# 🎬 Alztod Shortcuts v1.0
+# 🎬 AT-Essentials v1.3.0
 
-**Alztod Shortcuts** adalah Adobe After Effects Extension (CEP) yang dirancang buat nge-boost workflow editing lu biar makin sat-set. Gak perlu ribet buka menu satu-satu, semua tools penting udah dikumpulin jadi satu panel minimalis.
+**AT-Essentials** is a minimal, all-in-one Adobe After Effects Extension (CEP) designed to supercharge your editing workflow. No more menu diving—all essential tools are packed into one clean, dockable panel.
+
+### 💻 Supported After Effects Versions
+**Adobe After Effects CC 2020 (v17.0)** and newer (up to v99.9).
+
+---
+
+## ✨ Key Features
+
+### 🚀 1. Essentials (Main)
+* **Quick Comp:** Instantly create a Composition with 16:9, 4:3, or 1:1 presets. Auto-applies optimal Motion Blur settings (64 samples).
+* **Smart Solid:** Generate a Black Solid with an optional *Fill* effect in one click.
+* **Camera 15mm:** Spawn a 15mm camera with automatic zoom calculation.
+* **Null + Parent:** Create a Null Object and automatically parent selected layers.
+* **Fast Elements:** Instant buttons for Center Text, Adjustment Layer, and Adjustment Comp.
+
+### 📁 2. Project Manager
+* **Auto Organize:** Keep your Project Panel tidy. Automatically sorts items into `01_COMPS`, `02_ASSETS`, and `03_AUDIO` folders.
+
+### ⏳ 3. Timeline & Time Tools
+* **Advanced Stagger:** Offset selected layers sequentially (1, 5, 10 frames, or to the end of the clip).
+* **Un-Comp:** Extract contents from a Pre-comp back into your main timeline, preserving exact timing.
+* **Pre-Compose Pro:** Smart Pre-comp with options to *Move All Attributes* and *Adjust Duration*.
+* **Purge Cache:** Emergency button to clear Memory & Disk Cache when AE starts lagging. 🔥
+
+### 🎨 4. FX & Watermark
+* **Motion Tile Gen:** Apply Motion Tile with predefined scale options (150, 300, 500) and auto *Mirror Edges*.
+* **Smart Watermark:** Customizable text watermark generator with 9 anchor positions (Top-Left, Center, etc.) and a real-time scale slider.
+
+---
+
+## 🛠️ Installation Guide
+
+1. **Download/Clone** this repository.
+2. Move the project folder to your Adobe CEP extensions directory:
+   * **Windows:** `C:\Program Files (x86)\Common Files\Adobe\CEP\extensions\`
+   * **Mac:** `/Library/Application Support/Adobe/CEP/extensions/`
+3. Open After Effects.
+4. Go to **Window > Extensions > AT-Essentials**.
+
+> **Note:** If the panel appears blank, make sure you have enabled `PlayerDebugMode` in your Registry (Windows) or Terminal (Mac).
+
+---
+---
+
+# 🎬 AT-Suite v1.3.0 (Indonesia)
+
+**AT-Suite** (atau AT-Essentials) adalah Adobe After Effects Extension (CEP) yang dirancang buat nge-boost workflow editing lu biar makin sat-set. Gak perlu ribet buka menu satu-satu, semua tools penting udah dikumpulin jadi satu panel minimalis.
+
+### 💻 Versi After Effects yang Didukung
+**Adobe After Effects CC 2020 (v17.0)** ke atas (hingga v99.9).
 
 ---
 
@@ -30,22 +80,15 @@
 
 ## 🛠️ Cara Instalasi
 
-1.  **Download/Clone** repo ini.
-2.  Pindahkan folder project ke direktori ekstensi Adobe:
-    * **Windows:** `C:\Program Files (x86)\Common Files\Adobe\CEP\extensions\`
-3.  Buka After Effects.
-4.  Pergi ke menu **Window > Extensions > AlztodShortcuts**.
+1. **Download/Clone** repo ini.
+2. Pindahkan folder project ke direktori ekstensi Adobe:
+   * **Windows:** `C:\Program Files (x86)\Common Files\Adobe\CEP\extensions\`
+   * **Mac:** `/Library/Application Support/Adobe/CEP/extensions/`
+3. Buka After Effects.
+4. Pergi ke menu **Window > Extensions > AT-Essentials**.
 
-> **Note:** Kalau panel gak muncul/blank, pastiin lu udah aktifin `PlayerDebugMode` di Registry/Terminal lewat [ZXP Installer](https://zxpinstaller.com/) atau cara manual.
-
----
-
-## 💻 Tech Stack
-* **Frontend:** HTML5, CSS3 (Custom Dark Theme)
-* **Logic:** JavaScript (CSInterface)
-* **Engine:** ExtendScript (JSX)
+> **Note:** Kalau panel gak muncul/blank, pastiin lu udah aktifin `PlayerDebugMode` di Registry/Terminal.
 
 ---
 
-Made by **Alztod**
-*"Edit lebih cepet, tidur lebih nyenyak."*
+*"Edit lebih cepet, tidur lebih nyenyak." ~kata Gemini* 

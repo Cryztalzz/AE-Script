@@ -54,7 +54,7 @@ function buatNullParent() {
     var comp = app.project.activeItem;
 
     if (!comp || !(comp instanceof CompItem)) {
-        alert("Buka atau pilih komposisi dulu!");
+        alert("Open or select a composition first!");
         app.endUndoGroup();
         return;
     }
@@ -96,7 +96,7 @@ function buatTeksTengah(rasio) {
     app.beginUndoGroup("Bikin Text Tengah");
     var comp = ensureComp(rasio);
     
-    var textLayer = comp.layers.addText("TEKS BARU");
+    var textLayer = comp.layers.addText("NEW TEXT");
     
     var sourceText = textLayer.property("Source Text");
     var textDocument = sourceText.value;
@@ -143,7 +143,7 @@ function buatAdjLayer() {
             adjLayer.outPoint = target.outPoint;
         }
     } else {
-        alert("Buka komposisi dulu!");
+        alert("Open or select a composition first!");
     }
     app.endUndoGroup();
 }
