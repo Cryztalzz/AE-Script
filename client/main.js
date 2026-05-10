@@ -104,7 +104,7 @@ function updateWM() {
     csInterface.evalScript('generateOrUpdateWM("' + teks + '", "' + selectedPos + '", ' + scale + ')');
 }
 
-// --- LOGIKA PERSISTENCE (PENYIMPANAN) ---
+// --- LOGIKA PERSISTENCE ---
 
 const saveableElements = ['pilihComp', 'pilihStagger', 'pilihMT', 'wmScale', 'precompName', 'wmText'];
 const saveableCheckboxes = ['checkFillEffect', 'checkMirror', 'checkAdjDuration'];
