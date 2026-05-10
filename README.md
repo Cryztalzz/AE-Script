@@ -45,9 +45,9 @@
 ---
 ---
 
-# 🎬 AT-Suite v1.3.0 (Indonesia)
+# 🎬 AT-Essentials v1.3.0 (Indonesia)
 
-**AT-Suite** (atau AT-Essentials) adalah Adobe After Effects Extension (CEP) yang dirancang buat nge-boost workflow editing lu biar makin sat-set. Gak perlu ribet buka menu satu-satu, semua tools penting udah dikumpulin jadi satu panel minimalis.
+**AT-Essentials** adalah Adobe After Effects Extension (CEP) yang dirancang buat nge-boost workflow editing lu biar makin sat-set. Gak perlu ribet buka menu satu-satu, semua tools penting udah dikumpulin jadi satu panel minimalis.
 
 ### 💻 Versi After Effects yang Didukung
 **Adobe After Effects CC 2020 (v17.0)** ke atas (hingga v99.9).
