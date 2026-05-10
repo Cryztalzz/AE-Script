@@ -29,6 +29,8 @@
 * **Motion Tile Gen:** Apply Motion Tile with predefined scale options (150, 300, 500) and auto *Mirror Edges*.
 * **Smart Watermark:** Customizable text watermark generator with 9 anchor positions (Top-Left, Center, etc.) and a real-time scale slider.
 
+### 📝 5. Notepad
+* **Notes:** You can add your own notepad to every project files (JSON files created on ext folder)
 ---
 
 ## 🛠️ Installation Guide
@@ -76,6 +78,8 @@
 * **Motion Tile Gen:** Pasang Motion Tile dengan pilihan scale (150, 300, 500) dan fitur *Mirror Edges* otomatis.
 * **Smart Watermark:** Generator watermark teks dengan 9 titik posisi (Top-Left, Center, dsb) dan slider scale yang bisa di-update real-time.
 
+### 📝 5. Notepad
+* **Notes:** Lu bisa bikin catatan sendiri yang otomatis berbeda di setiap project files (Otomatis bikin file JSON di folder ext)
 ---
 
 ## 🛠️ Cara Instalasi
