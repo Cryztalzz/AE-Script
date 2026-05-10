@@ -35,16 +35,13 @@ function buatSolidFill(rasio, addFill) {
     app.endUndoGroup();
 }
 
-function buatKamera15mm(rasio) {
-    app.beginUndoGroup("Bikin Kamera 15mm");
+function buatKamera(rasio) {
+    app.beginUndoGroup("Bikin Kamera");
     var comp = ensureComp(rasio);
     
-    var cam = comp.layers.addCamera("Camera 15mm", [comp.width/2, comp.height/2]);
-    var focalLength = 15;
-    var filmSize = 36;
-    var zoomValue = (focalLength / filmSize) * comp.width;
-    
-    cam.property("Camera Options").property("Zoom").setValue(zoomValue);
+    comp.openInViewer();
+
+    app.executeCommand(2564);
     
     app.endUndoGroup();
 }
@@ -63,11 +60,22 @@ function buatNullParent() {
     var nullLayer = comp.layers.addNull(comp.duration);
     nullLayer.name = "Control Null";
 
+    nullLayer.position.setValue([comp.width / 2, comp.height / 2]);
+
     if (selectedLayers.length > 0) {
         var topIndex = selectedLayers[0].index;
+        var isAny3D = false;
         
+        var minIn = selectedLayers[0].inPoint;
+        var maxOut = selectedLayers[0].outPoint;
+
         for (var i = 0; i < selectedLayers.length; i++) {
             var currentLayer = selectedLayers[i];
+            
+            if (currentLayer.threeDLayer) isAny3D = true;
+            
+            if (currentLayer.inPoint < minIn) minIn = currentLayer.inPoint;
+            if (currentLayer.outPoint > maxOut) maxOut = currentLayer.outPoint;
             
             currentLayer.parent = nullLayer;
             
@@ -76,16 +84,26 @@ function buatNullParent() {
 
         nullLayer.moveBefore(comp.layer(topIndex));
         
-        nullLayer.position.setValue(selectedLayers[0].position.value);
-        if (selectedLayers[0].threeDLayer) nullLayer.threeDLayer = true;
+        nullLayer.inPoint = minIn;
+        nullLayer.outPoint = maxOut;
+        
+        if (isAny3D) {
+            nullLayer.threeDLayer = true;
+            nullLayer.position.setValue([comp.width / 2, comp.height / 2, 0]);
+        }
 
     } else {
         if (comp.numLayers > 1) {
-            var targetLayer = comp.layer(2); 
+            var targetLayer = comp.layer(2);
             targetLayer.parent = nullLayer;
             
-            nullLayer.position.setValue(targetLayer.position.value);
-            if (targetLayer.threeDLayer) nullLayer.threeDLayer = true;
+            nullLayer.inPoint = targetLayer.inPoint;
+            nullLayer.outPoint = targetLayer.outPoint;
+
+            if (targetLayer.threeDLayer) {
+                nullLayer.threeDLayer = true;
+                nullLayer.position.setValue([comp.width / 2, comp.height / 2, 0]);
+            }
         }
     }
 

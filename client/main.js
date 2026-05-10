@@ -34,7 +34,10 @@ document.getElementById('btnSolidFill').addEventListener('click', function() {
     csInterface.evalScript('buatSolidFill("' + getRasio() + '", ' + addFill + ')'); 
 });
 
-document.getElementById('btnCam15').addEventListener('click', function() { csInterface.evalScript('buatKamera15mm("' + getRasio() + '")'); });
+document.getElementById('btnKamera').addEventListener('click', function() {
+    csInterface.evalScript('buatKamera("' + getRasio() + '")'); 
+});
+
 document.getElementById('btnNullParent').addEventListener('click', function() { csInterface.evalScript('buatNullParent()'); });
 document.getElementById('btnTeksTengah').addEventListener('click', function() { csInterface.evalScript('buatTeksTengah("' + getRasio() + '")'); });
 document.getElementById('btnAdjComp').addEventListener('click', function() { csInterface.evalScript('buatAdjComp("' + getRasio() + '")'); });
@@ -88,6 +91,7 @@ posButtons.forEach(function(btn) {
         posButtons.forEach(b => b.classList.remove('active'));
         this.classList.add('active');
         selectedPos = this.getAttribute('data-pos');
+        saveSettings();
         updateWM();
     });
 });
@@ -99,3 +103,67 @@ function updateWM() {
     var scale = wmScaleInput.value;
     csInterface.evalScript('generateOrUpdateWM("' + teks + '", "' + selectedPos + '", ' + scale + ')');
 }
+
+// --- LOGIKA PERSISTENCE (PENYIMPANAN) ---
+
+const saveableElements = ['pilihComp', 'pilihStagger', 'pilihMT', 'wmScale', 'precompName', 'wmText'];
+const saveableCheckboxes = ['checkFillEffect', 'checkMirror', 'checkAdjDuration'];
+
+function saveSettings() {
+    const settings = {};
+    
+    saveableElements.forEach(id => {
+        settings[id] = document.getElementById(id).value;
+    });
+
+    saveableCheckboxes.forEach(id => {
+        settings[id] = document.getElementById(id).checked;
+    });
+
+    settings['selectedPos'] = selectedPos;
+
+    localStorage.setItem('at_essentials_settings', JSON.stringify(settings));
+}
+
+function loadSettings() {
+    const savedData = localStorage.getItem('at_essentials_settings');
+    if (!savedData) return;
+
+    const settings = JSON.parse(savedData);
+
+    saveableElements.forEach(id => {
+        if (settings[id] !== undefined) {
+            document.getElementById(id).value = settings[id];
+        }
+    });
+
+    saveableCheckboxes.forEach(id => {
+        if (settings[id] !== undefined) {
+            document.getElementById(id).checked = settings[id];
+        }
+    });
+
+    if (settings['selectedPos']) {
+        selectedPos = settings['selectedPos'];
+        posButtons.forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.getAttribute('data-pos') === selectedPos) {
+                btn.classList.add('active');
+            }
+        });
+    }
+
+    if(document.getElementById('wmScaleVal')) {
+        document.getElementById('wmScaleVal').innerText = document.getElementById('wmScale').value + "%";
+    }
+}
+
+loadSettings();
+
+[...saveableElements, ...saveableCheckboxes].forEach(id => {
+    document.getElementById(id).addEventListener('change', saveSettings);
+});
+
+document.getElementById('wmScale').addEventListener('input', saveSettings);
+document.getElementById('precompName').addEventListener('input', saveSettings);
+document.getElementById('wmText').addEventListener('input', saveSettings);
