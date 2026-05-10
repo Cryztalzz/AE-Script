@@ -352,3 +352,11 @@ function generateOrUpdateWM(txt, pos, scaleVal) {
 }
 
 function purgeCache() { app.purge(PurgeTarget.ALL_CACHES); alert("Memory & Disk cache cleared!"); }
+
+function getProjectPath() {
+    if (app.project && app.project.file) {
+        return app.project.file.fsName;
+    } else {
+        return "Untitled_Project";
+    }
+}

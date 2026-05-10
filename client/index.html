@@ -12,6 +12,7 @@
         <button class="tab-btn" onclick="openTab(event, 'manager')">Project</button>
         <button class="tab-btn" onclick="openTab(event, 'timeline')">Time</button>
         <button class="tab-btn" onclick="openTab(event, 'presets')">FX</button>
+        <button class="tab-btn" onclick="openTab(event, 'notes')">Notes</button>
     </div>
 
     <div class="tab-container">
@@ -151,12 +152,17 @@
                 <button id="btnGenerateWM" class="btn-span-2 btn-wm">Update / Generate WM</button>
             </div>
         </div>
+        <div id="notes" class="tab-content">
+            <div class="section-title">Project Notes</div>
+            <textarea id="projectNotes" class="note-area" spellcheck="false" placeholder="Tulis catatan, to-do list, atau revisian di sini...&#10;&#10;Catatan akan otomatis ke-save berdasarkan file project yang lagi dibuka."></textarea>
+            <div id="noteStatus" class="note-status">Loading project data...</div>
+        </div>
 
     </div>
 
     <div class="watermark-container">
         <img src="../icons/icon.png" alt="Alztod icon" class="profile-icon">
-        <div class="watermark-text">AT-Essentials v1.4</div>
+        <div class="watermark-text">AT-Essentials v1.5</div>
     </div>
     
     <script src="./main.js"></script>

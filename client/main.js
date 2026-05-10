@@ -5,6 +5,7 @@ var posButtons = document.querySelectorAll('.pos-btn');
 var wmScaleInput = document.getElementById('wmScale');
 var radioMove = document.getElementById('radioMove');
 var adjBox = document.getElementById('adjDurationBox');
+var noteArea = document.getElementById('projectNotes');
 
 // --- LOGIKA TABS ---
 function openTab(evt, tabName) {
@@ -22,6 +23,10 @@ function openTab(evt, tabName) {
 
     document.getElementById(tabName).classList.add("active");
     evt.currentTarget.classList.add("active");
+
+    if (tabName === 'notes') {
+        loadProjectNote();
+    }
 }
 
 function getRasio() { return document.getElementById('pilihComp').value; }
@@ -167,3 +172,120 @@ loadSettings();
 document.getElementById('wmScale').addEventListener('input', saveSettings);
 document.getElementById('precompName').addEventListener('input', saveSettings);
 document.getElementById('wmText').addEventListener('input', saveSettings);
+
+// --- NOTEPAD (AUTO-SAVE PER PROJECT) ---
+const fs = require('fs');
+const path = require('path');
+
+const extensionPath = csInterface.getSystemPath(SystemPath.EXTENSION);
+const notesFilePath = path.join(extensionPath, 'project_notes.json');
+
+var typingTimer;
+var doneTypingInterval = 600;
+
+function loadProjectNote() {
+    csInterface.evalScript('getProjectPath()', function(currentPath) {
+        let notesData = {};
+        if (fs.existsSync(notesFilePath)) {
+            try { notesData = JSON.parse(fs.readFileSync(notesFilePath, 'utf8')); } catch (e) { notesData = {}; }
+        }
+
+        const noteArea = document.getElementById('projectNotes');
+        const statusEl = document.getElementById('noteStatus');
+        
+        noteArea.value = notesData[currentPath] || "";
+        statusEl.dataset.path = currentPath;
+        
+        if (currentPath === "Untitled_Project") {
+            statusEl.innerText = "⚠️ Project belum di-save! Catatan masuk ke kategori 'Untitled'";
+            statusEl.classList.add('status-warning');
+        } else {
+            var fileName = currentPath.split('\\').pop().split('/').pop();
+            statusEl.innerText = "Storage: project_notes.json (" + fileName + ")";
+            statusEl.classList.remove('status-warning');
+        }
+    });
+}
+
+function saveProjectNote() {
+    const noteVal = document.getElementById('projectNotes').value;
+    const statusEl = document.getElementById('noteStatus');
+    const projectPath = statusEl.dataset.path;
+    
+    if (!projectPath) return;
+
+    let notesData = {};
+    if (fs.existsSync(notesFilePath)) {
+        try { notesData = JSON.parse(fs.readFileSync(notesFilePath, 'utf8')); } catch (e) { notesData = {}; }
+    }
+
+    notesData[projectPath] = noteVal;
+
+    try {
+        fs.writeFileSync(notesFilePath, JSON.stringify(notesData, null, 4), 'utf8');
+        
+        statusEl.innerText = "✓ Saved to extension folder";
+        statusEl.classList.add('status-saved');
+        statusEl.classList.remove('status-warning');
+        
+        setTimeout(() => {
+            statusEl.classList.remove('status-saved');
+            if (projectPath === "Untitled_Project") {
+                statusEl.innerText = "⚠️ Project belum di-save! Catatan masuk ke kategori 'Untitled'";
+                statusEl.classList.add('status-warning');
+            } else {
+                var fileName = projectPath.split('\\').pop().split('/').pop();
+                statusEl.innerText = "Storage: project_notes.json (" + fileName + ")";
+            }
+        }, 2000);
+    } catch (err) {
+        statusEl.innerText = "❌ Gagal save file!";
+        console.error(err);
+    }
+}
+
+document.getElementById('projectNotes').addEventListener('input', function() {
+    document.getElementById('noteStatus').innerText = "Mengetik...";
+    clearTimeout(typingTimer);
+    typingTimer = setTimeout(saveProjectNote, doneTypingInterval);
+});
+
+// --- BACKGROUND MONITOR (OTOMATIS MIGRASI & REFRESH) ---
+setInterval(function() {
+    csInterface.evalScript('getProjectPath()', function(currentPath) {
+        if (!currentPath) return;
+        
+        const statusEl = document.getElementById('noteStatus');
+        const oldPath = statusEl.dataset.path;
+
+        if (!oldPath) return; 
+
+        if (oldPath === "Untitled_Project" && currentPath !== "Untitled_Project") {
+            let notesData = {};
+            if (fs.existsSync(notesFilePath)) {
+                try { notesData = JSON.parse(fs.readFileSync(notesFilePath, 'utf8')); } catch (e) {}
+            }
+
+            if (notesData["Untitled_Project"] !== undefined) {
+                notesData[currentPath] = notesData["Untitled_Project"];
+                delete notesData["Untitled_Project"];
+                try { fs.writeFileSync(notesFilePath, JSON.stringify(notesData, null, 4), 'utf8'); } catch(e) {}
+            }
+
+            statusEl.dataset.path = currentPath;
+            var fileName = currentPath.split('\\').pop().split('/').pop();
+            
+            statusEl.innerText = "✨ Auto-Migrated to " + fileName;
+            statusEl.classList.remove('status-warning');
+            statusEl.classList.add('status-saved');
+            setTimeout(() => {
+                 statusEl.classList.remove('status-saved');
+                 statusEl.innerText = "Storage: project_notes.json (" + fileName + ")";
+            }, 3000);
+        }
+        
+        else if (oldPath !== currentPath && oldPath !== "Untitled_Project") {
+            loadProjectNote();
+        }
+    });
+}, 1500);
