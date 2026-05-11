@@ -153,8 +153,15 @@
             </div>
         </div>
         <div id="notes" class="tab-content">
-            <div class="section-title">Project Notes</div>
-            <textarea id="projectNotes" class="note-area" spellcheck="false" placeholder="Tulis catatan, to-do list, atau revisian di sini...&#10;&#10;Catatan akan otomatis ke-save berdasarkan file project yang lagi dibuka."></textarea>
+            <div class="note-header">
+                <div class="section-title">Project Notes</div>
+                <label class="theme-switch" title="Toggle Light/Dark Theme">
+                    <input type="checkbox" id="noteThemeToggle">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div id="notesContainer"></div>
+            <button id="btnAddNote" class="btn-span-2 btn-wm btn-add-note">➕ Add New Note</button>
             <div id="noteStatus" class="note-status">Loading project data...</div>
         </div>
 

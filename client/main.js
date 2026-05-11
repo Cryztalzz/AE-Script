@@ -112,7 +112,7 @@ function updateWM() {
 // --- LOGIKA PERSISTENCE ---
 
 const saveableElements = ['pilihComp', 'pilihStagger', 'pilihMT', 'wmScale', 'precompName', 'wmText'];
-const saveableCheckboxes = ['checkFillEffect', 'checkMirror', 'checkAdjDuration'];
+const saveableCheckboxes = ['checkFillEffect', 'checkMirror',  'radioMove', 'checkAdjDuration', 'noteThemeToggle'];
 
 function saveSettings() {
     const settings = {};
@@ -139,12 +139,14 @@ function loadSettings() {
     saveableElements.forEach(id => {
         if (settings[id] !== undefined) {
             document.getElementById(id).value = settings[id];
+            document.getElementById(id).dispatchEvent(new Event('change'));
         }
     });
 
     saveableCheckboxes.forEach(id => {
         if (settings[id] !== undefined) {
             document.getElementById(id).checked = settings[id];
+            document.getElementById(id).dispatchEvent(new Event('change'));
         }
     });
 
@@ -182,6 +184,51 @@ const notesFilePath = path.join(extensionPath, 'project_notes.json');
 
 var typingTimer;
 var doneTypingInterval = 600;
+const SEPARATOR = "||AT_SPLIT||"; 
+
+const notesContainer = document.getElementById('notesContainer');
+const btnAddNote = document.getElementById('btnAddNote');
+
+function createNoteUI(text = "") {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'note-wrapper';
+
+    const textarea = document.createElement('textarea');
+    textarea.className = 'note-area';
+    textarea.spellcheck = false;
+    textarea.placeholder = "Write your project notes here...";
+    textarea.value = text;
+
+    if (document.getElementById('noteThemeToggle').checked) {
+        textarea.classList.add('dark-theme');
+    }
+
+    textarea.addEventListener('input', function() {
+        document.getElementById('noteStatus').innerText = "Mengetik...";
+        clearTimeout(typingTimer);
+        typingTimer = setTimeout(saveProjectNote, doneTypingInterval);
+    });
+
+    const delBtn = document.createElement('button');
+    delBtn.className = 'btn-del-note';
+    delBtn.innerHTML = '✖';
+    delBtn.onclick = function() {
+        wrapper.remove();
+        if (notesContainer.querySelectorAll('.note-area').length === 0) {
+            createNoteUI(""); 
+        }
+        saveProjectNote();
+    };
+
+    wrapper.appendChild(textarea);
+    wrapper.appendChild(delBtn);
+    notesContainer.appendChild(wrapper);
+}
+
+btnAddNote.addEventListener('click', () => {
+    createNoteUI(""); 
+    saveProjectNote();
+});
 
 function loadProjectNote() {
     csInterface.evalScript('getProjectPath()', function(currentPath) {
@@ -190,74 +237,72 @@ function loadProjectNote() {
             try { notesData = JSON.parse(fs.readFileSync(notesFilePath, 'utf8')); } catch (e) { notesData = {}; }
         }
 
-        const noteArea = document.getElementById('projectNotes');
+        notesContainer.innerHTML = ''; 
         const statusEl = document.getElementById('noteStatus');
         
-        noteArea.value = notesData[currentPath] || "";
-        statusEl.dataset.path = currentPath;
+        let savedText = notesData[currentPath];
         
-        if (currentPath === "Untitled_Project") {
-            statusEl.innerText = "⚠️ Project belum di-save! Catatan masuk ke kategori 'Untitled'";
-            statusEl.classList.add('status-warning');
+        if (savedText === undefined || savedText === "") {
+            createNoteUI(""); 
         } else {
-            var fileName = currentPath.split('\\').pop().split('/').pop();
-            statusEl.innerText = "Storage: project_notes.json (" + fileName + ")";
-            statusEl.classList.remove('status-warning');
+            let notesArray = savedText.split(SEPARATOR);
+            if (notesArray.length === 0) {
+                createNoteUI("");
+            } else {
+                notesArray.forEach(text => createNoteUI(text));
+            }
         }
+
+        statusEl.dataset.path = currentPath;
+        updateStatusUI(currentPath);
     });
 }
 
 function saveProjectNote() {
-    const noteVal = document.getElementById('projectNotes').value;
     const statusEl = document.getElementById('noteStatus');
     const projectPath = statusEl.dataset.path;
-    
     if (!projectPath) return;
+
+    const textareas = notesContainer.querySelectorAll('.note-area');
+    const combinedText = Array.from(textareas).map(ta => ta.value).join(SEPARATOR);
 
     let notesData = {};
     if (fs.existsSync(notesFilePath)) {
         try { notesData = JSON.parse(fs.readFileSync(notesFilePath, 'utf8')); } catch (e) { notesData = {}; }
     }
 
-    notesData[projectPath] = noteVal;
+    notesData[projectPath] = combinedText;
 
     try {
         fs.writeFileSync(notesFilePath, JSON.stringify(notesData, null, 4), 'utf8');
-        
         statusEl.innerText = "✓ Saved to extension folder";
         statusEl.classList.add('status-saved');
-        statusEl.classList.remove('status-warning');
-        
         setTimeout(() => {
             statusEl.classList.remove('status-saved');
-            if (projectPath === "Untitled_Project") {
-                statusEl.innerText = "⚠️ Project belum di-save! Catatan masuk ke kategori 'Untitled'";
-                statusEl.classList.add('status-warning');
-            } else {
-                var fileName = projectPath.split('\\').pop().split('/').pop();
-                statusEl.innerText = "Storage: project_notes.json (" + fileName + ")";
-            }
+            updateStatusUI(projectPath);
         }, 2000);
     } catch (err) {
-        statusEl.innerText = "❌ Gagal save file!";
-        console.error(err);
+        statusEl.innerText = "❌ Failed to save file!";
     }
 }
 
-document.getElementById('projectNotes').addEventListener('input', function() {
-    document.getElementById('noteStatus').innerText = "Mengetik...";
-    clearTimeout(typingTimer);
-    typingTimer = setTimeout(saveProjectNote, doneTypingInterval);
-});
+function updateStatusUI(path) {
+    const statusEl = document.getElementById('noteStatus');
+    if (path === "Untitled_Project") {
+        statusEl.innerText = "⚠️ Project not saved! Notes will be saved in 'Untitled' category";
+        statusEl.classList.add('status-warning');
+    } else {
+        var fileName = path.split('\\').pop().split('/').pop();
+        statusEl.innerText = "Storage: project_notes.json (" + fileName + ")";
+        statusEl.classList.remove('status-warning');
+    }
+}
 
-// --- BACKGROUND MONITOR (OTOMATIS MIGRASI & REFRESH) ---
 setInterval(function() {
     csInterface.evalScript('getProjectPath()', function(currentPath) {
         if (!currentPath) return;
-        
         const statusEl = document.getElementById('noteStatus');
         const oldPath = statusEl.dataset.path;
-
         if (!oldPath) return; 
 
         if (oldPath === "Untitled_Project" && currentPath !== "Untitled_Project") {
@@ -265,27 +310,28 @@ setInterval(function() {
             if (fs.existsSync(notesFilePath)) {
                 try { notesData = JSON.parse(fs.readFileSync(notesFilePath, 'utf8')); } catch (e) {}
             }
-
             if (notesData["Untitled_Project"] !== undefined) {
                 notesData[currentPath] = notesData["Untitled_Project"];
                 delete notesData["Untitled_Project"];
                 try { fs.writeFileSync(notesFilePath, JSON.stringify(notesData, null, 4), 'utf8'); } catch(e) {}
             }
-
-            statusEl.dataset.path = currentPath;
-            var fileName = currentPath.split('\\').pop().split('/').pop();
-            
-            statusEl.innerText = "✨ Auto-Migrated to " + fileName;
-            statusEl.classList.remove('status-warning');
-            statusEl.classList.add('status-saved');
-            setTimeout(() => {
-                 statusEl.classList.remove('status-saved');
-                 statusEl.innerText = "Storage: project_notes.json (" + fileName + ")";
-            }, 3000);
+            loadProjectNote();
         }
-        
         else if (oldPath !== currentPath && oldPath !== "Untitled_Project") {
             loadProjectNote();
         }
     });
 }, 1500);
+
+document.getElementById('noteThemeToggle').addEventListener('change', function() {
+    const isDark = this.checked;
+    const textareas = document.querySelectorAll('.note-area');
+    
+    textareas.forEach(ta => {
+        if (isDark) {
+            ta.classList.add('dark-theme');
+        } else {
+            ta.classList.remove('dark-theme');
+        }
+    });
+});

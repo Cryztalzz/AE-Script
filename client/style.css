@@ -129,6 +129,18 @@ button:hover { background-color: #1a73e8; }
 
 .tab-content.active {
     display: block;
+    animation: fadeInTab 0.25s ease-out forwards;
+}
+
+@keyframes fadeInTab {
+    from { 
+        opacity: 0; 
+        transform: translateY(6px);
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
 }
 
 /* INPUT TEXT */
@@ -180,39 +192,73 @@ input:checked + .slider:before { transform: translateX(12px); }
 .range-input { width: 100%; cursor: pointer; accent-color: #2d8ceb; }
 
 /* ================= NOTEPAD ================= */
+.note-wrapper {
+    position: relative;
+    margin-bottom: 10px;
+    animation: slideInNote 0.2s ease-out;
+}
+
+@keyframes slideInNote {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
 .note-area {
     width: 100%;
-    height: 250px;
-    background-color: #2a2a2a;
-    color: #e0e0e0;
-    border: 1px solid #444;
-    border-radius: 4px;
-    padding: 10px;
+    height: 100px;
+    background-color: #fcfcfc;
+    color: #222;
+    border: 1px solid #dcdcdc;
+    border-radius: 6px;
+    padding: 10px 30px 10px 12px;
     font-size: 11px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     resize: vertical;
     box-sizing: border-box;
     outline: none;
-    transition: border-color 0.2s;
+    transition: all 0.2s;
     line-height: 1.5;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
 }
 
 .note-area:focus {
     border-color: #2d8ceb;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 2px rgba(45, 140, 235, 0.1);
 }
 
-.note-area::-webkit-scrollbar {
-    width: 6px;
+.btn-del-note {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    background: transparent;
+    border: none;
+    color: #bbb;
+    cursor: pointer;
+    font-size: 10px;
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
-.note-area::-webkit-scrollbar-track {
-    background: #2a2a2a;
+
+.btn-del-note:hover {
+    color: #ff4757;
+    background: rgba(255, 71, 87, 0.1);
 }
-.note-area::-webkit-scrollbar-thumb {
+
+.btn-add-note {
+    margin-top: 5px;
+    margin-bottom: 15px;
+    background: #333;
+    border: 1px dashed #555;
+}
+
+.btn-add-note:hover {
     background: #444;
-    border-radius: 10px;
-}
-.note-area::-webkit-scrollbar-thumb:hover {
-    background: #555;
+    border-color: #777;
 }
 
 .note-status {
@@ -221,15 +267,77 @@ input:checked + .slider:before { transform: translateX(12px); }
     margin-top: 6px;
     text-align: right;
     font-style: italic;
-    transition: color 0.3s;
 }
 
-.status-saved {
-    color: #27ae60 !important;
+/* ================= HEADER & SLIDER NOTEPAD ================= */
+.note-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
 }
-.status-warning {
-    color: #e67e22 !important;
+
+.note-header .section-title {
+    margin-bottom: 0;
 }
+
+.theme-switch {
+    position: relative;
+    display: inline-block;
+    width: 30px;
+    height: 16px;
+}
+
+.theme-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.theme-switch .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #ccc;
+    transition: .3s ease;
+    border-radius: 16px;
+}
+
+.theme-switch .slider:before {
+    position: absolute;
+    content: "";
+    height: 10px;
+    width: 10px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .3s ease;
+    border-radius: 50%;
+}
+
+.theme-switch input:checked + .slider {
+    background-color: #2d8ceb;
+}
+
+.theme-switch input:checked + .slider:before {
+    transform: translateX(14px);
+}
+
+.note-area.dark-theme {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+    box-shadow: none;
+}
+
+.note-area.dark-theme:focus {
+    border-color: #2d8ceb;
+    background-color: #222;
+    box-shadow: 0 0 0 2px rgba(45, 140, 235, 0.2);
+}
+
+.status-saved { color: #27ae60 !important; }
+.status-warning { color: #e67e22 !important; }
 
 /* WATERMARK FOOTER */
 .watermark-container { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 15px; padding: 5px 0; pointer-events: none; flex-shrink: 0; }
